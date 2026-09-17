@@ -15,6 +15,27 @@ type ContactChooserProps = {
   topic?: ContactTopic
 }
 
+const focusableSelector = [
+  'a[href]',
+  'button:not([disabled])',
+  'input:not([disabled])',
+  'select:not([disabled])',
+  'textarea:not([disabled])',
+  '[contenteditable="true"]',
+  '[tabindex]:not([tabindex="-1"])',
+].join(',')
+
+function getFocusableElements(container: HTMLElement) {
+  return Array.from(
+    container.querySelectorAll<HTMLElement>(focusableSelector),
+  ).filter(
+    (element) =>
+      !element.hidden &&
+      element.tabIndex >= 0 &&
+      element.getAttribute('aria-hidden') !== 'true',
+  )
+}
+
 function formatPhone(phone: string) {
   const digits = phone.replace(/\D/g, '')
   const areaCode = digits.slice(2, 4)
@@ -29,27 +50,105 @@ export function ContactChooser({
   topic,
 }: ContactChooserProps) {
   const closeButtonRef = useRef<HTMLButtonElement>(null)
+  const dialogRef = useRef<HTMLElement>(null)
+  const onCloseRef = useRef(onClose)
 
-  useEffect(() => {
-    if (open) {
-      closeButtonRef.current?.focus()
-    }
-  }, [open])
+  onCloseRef.current = onClose
 
   useEffect(() => {
     if (!open) {
       return
     }
 
+    const dialog = dialogRef.current
+    const backdrop = dialog?.parentElement
+
+    if (!dialog || !backdrop) {
+      return
+    }
+
+    const activeDialog: HTMLElement = dialog
+    const previouslyFocusedElement =
+      document.activeElement instanceof HTMLElement
+        ? document.activeElement
+        : null
+
+    closeButtonRef.current?.focus()
+
+    const siblingStates = Array.from(
+      backdrop.parentElement?.children ?? [],
+    )
+      .filter(
+        (element): element is HTMLElement =>
+          element instanceof HTMLElement && element !== backdrop,
+      )
+      .map((element) => ({
+        element,
+        hadAttribute: element.hasAttribute('inert'),
+        attributeValue: element.getAttribute('inert'),
+      }))
+
+    siblingStates.forEach(({ element }) => element.setAttribute('inert', ''))
+
     function handleKeyDown(event: KeyboardEvent) {
       if (event.key === 'Escape') {
-        onClose()
+        event.preventDefault()
+        onCloseRef.current()
+        return
+      }
+
+      if (event.key !== 'Tab') {
+        return
+      }
+
+      const focusableElements = getFocusableElements(activeDialog)
+      const firstElement = focusableElements[0]
+      const lastElement = focusableElements.at(-1)
+
+      if (!firstElement || !lastElement) {
+        return
+      }
+
+      const activeElement = document.activeElement
+      const focusIsOutsideDialog =
+        !(activeElement instanceof Node) ||
+        !activeDialog.contains(activeElement)
+
+      if (
+        event.shiftKey &&
+        (activeElement === firstElement || focusIsOutsideDialog)
+      ) {
+        event.preventDefault()
+        lastElement.focus()
+      } else if (
+        !event.shiftKey &&
+        (activeElement === lastElement || focusIsOutsideDialog)
+      ) {
+        event.preventDefault()
+        firstElement.focus()
       }
     }
 
-    window.addEventListener('keydown', handleKeyDown)
-    return () => window.removeEventListener('keydown', handleKeyDown)
-  }, [onClose, open])
+    document.addEventListener('keydown', handleKeyDown)
+
+    return () => {
+      document.removeEventListener('keydown', handleKeyDown)
+
+      siblingStates.forEach(
+        ({ element, hadAttribute, attributeValue }) => {
+          if (hadAttribute) {
+            element.setAttribute('inert', attributeValue ?? '')
+          } else {
+            element.removeAttribute('inert')
+          }
+        },
+      )
+
+      if (previouslyFocusedElement?.isConnected) {
+        previouslyFocusedElement.focus()
+      }
+    }
+  }, [open])
 
   if (!open) {
     return null
@@ -62,6 +161,7 @@ export function ContactChooser({
       onMouseDown={onClose}
     >
       <section
+        ref={dialogRef}
         className="contact-chooser"
         role="dialog"
         aria-modal="true"

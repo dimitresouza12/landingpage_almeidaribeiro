@@ -98,14 +98,18 @@
   z-index: 50;
   inset: 0;
   display: grid;
-  place-items: center;
+  overflow-y: auto;
   padding: var(--space-3);
   background: rgb(61 44 37 / 0.58);
+  align-items: safe center;
+  justify-items: center;
 }
 
 .contact-chooser {
   position: relative;
   width: min(100%, 38rem);
+  max-block-size: calc(100dvh - 2rem);
+  overflow-y: auto;
   padding: clamp(var(--space-3), 6vw, var(--space-5));
   border-radius: var(--radius-md);
   background: var(--color-paper);
