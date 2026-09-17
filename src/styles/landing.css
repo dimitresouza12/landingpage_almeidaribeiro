@@ -4,43 +4,40 @@
 }
 
 .section {
-  width: min(100%, 75rem);
+  max-width: 75rem;
   margin-inline: auto;
-  padding: var(--space-2xl) clamp(var(--space-md), 4vw, var(--space-xl));
+  padding: var(--space-6) var(--space-3);
 }
 
 .eyebrow {
-  margin: 0 0 var(--space-sm);
+  margin: 0 0 var(--space-2);
   color: var(--color-gold);
-  color: color-mix(in srgb, var(--color-gold) 76%, var(--color-ink));
   font-size: 0.75rem;
   font-weight: 700;
-  letter-spacing: 0.14em;
+  letter-spacing: 0.12em;
   line-height: 1.4;
   text-transform: uppercase;
 }
 
 .section-title {
-  max-width: 18ch;
+  max-width: 14ch;
   margin: 0;
   color: var(--color-ink);
   font-family: var(--font-display);
-  font-size: clamp(2.25rem, 5vw, 4.75rem);
+  font-size: clamp(2.25rem, 6vw, 4.75rem);
   font-weight: 600;
-  letter-spacing: -0.025em;
-  line-height: 1.02;
+  letter-spacing: -0.035em;
+  line-height: 0.98;
   text-wrap: balance;
 }
 
-.button,
-.button-primary,
-.button-secondary {
+.button {
   display: inline-flex;
-  min-height: 44px;
+  min-height: 2.75rem;
   align-items: center;
   justify-content: center;
-  gap: var(--space-xs);
-  padding: 0.7rem var(--space-md);
+  gap: var(--space-1);
+  padding: 0.75rem 1rem;
   border: 1px solid transparent;
   border-radius: var(--radius-sm);
   font-weight: 700;
@@ -49,64 +46,53 @@
   text-decoration: none;
   cursor: pointer;
   transition:
-    transform var(--motion-fast) ease,
-    background-color var(--motion-base) ease,
-    border-color var(--motion-base) ease,
-    color var(--motion-base) ease;
+    background-color var(--motion-fast),
+    border-color var(--motion-fast),
+    color var(--motion-fast),
+    transform var(--motion-fast);
 }
 
-.button--primary,
-.button-primary {
+.button--primary {
   border-color: var(--color-ink);
   background: var(--color-ink);
   color: var(--color-paper);
 }
 
-.button--secondary,
-.button-secondary {
-  border-color: var(--color-ink);
+.button--secondary {
+  border-color: var(--color-line);
   background: transparent;
   color: var(--color-ink);
 }
 
-.button:hover,
-.button-primary:hover,
-.button-secondary:hover {
+.button:hover {
   transform: translateY(-2px);
 }
 
-.button--primary:hover,
-.button-primary:hover {
-  border-color: color-mix(in srgb, var(--color-ink) 88%, black);
-  background: color-mix(in srgb, var(--color-ink) 88%, black);
+.button--primary:hover {
+  border-color: var(--color-ink-muted);
+  background: var(--color-ink-muted);
 }
 
-.button--secondary:hover,
-.button-secondary:hover {
+.button--secondary:hover {
   background: var(--color-sand);
 }
 
-.button:active,
-.button-primary:active,
-.button-secondary:active {
+.button:active {
   transform: translateY(0);
 }
 
-.button:disabled,
-.button-primary:disabled,
-.button-secondary:disabled {
+.button:disabled {
   opacity: 0.55;
   cursor: not-allowed;
   transform: none;
 }
 
-@media (max-width: 40rem) {
+@media (max-width: 47.99rem) {
   .section {
-    padding: var(--space-xl) var(--space-sm);
+    padding: var(--space-5) var(--space-2);
   }
 
   .section-title {
-    font-size: clamp(2rem, 11vw, 3.25rem);
-    line-height: 1.06;
+    max-width: 17ch;
   }
 }

@@ -41,21 +41,20 @@ img {
 
 .skip-link {
   position: fixed;
-  z-index: 1000;
-  top: var(--space-sm);
-  left: var(--space-sm);
-  padding: var(--space-xs) var(--space-sm);
-  transform: translateY(calc(-100% - var(--space-lg)));
+  z-index: 100;
+  top: -4rem;
+  left: var(--space-2);
+  padding: var(--space-1) var(--space-2);
   border-radius: var(--radius-sm);
   background: var(--color-ink);
   color: var(--color-paper);
   font-weight: 700;
   text-decoration: none;
-  transition: transform var(--motion-fast) ease;
+  transition: top var(--motion-fast);
 }
 
-.skip-link:focus-visible {
-  transform: translateY(0);
+.skip-link:focus {
+  top: var(--space-2);
 }
 
 @media (prefers-reduced-motion: reduce) {
