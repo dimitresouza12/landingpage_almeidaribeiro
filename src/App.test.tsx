@@ -10,7 +10,7 @@ describe('App', () => {
     expect(
       screen.getByRole('heading', {
         level: 1,
-        name: /advocacia para pessoas e empresas/i,
+        name: /^advocacia para pessoas e empresas\.$/i,
       }),
     ).toBeInTheDocument()
     expect(
