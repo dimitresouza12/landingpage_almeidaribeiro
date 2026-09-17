@@ -11,7 +11,7 @@
 
 .eyebrow {
   margin: 0 0 var(--space-2);
-  color: var(--color-gold);
+  color: var(--color-gold-text);
   font-size: 0.75rem;
   font-weight: 700;
   letter-spacing: 0.12em;
@@ -60,28 +60,30 @@
 }
 
 .button-secondary {
-  border-color: var(--color-line);
+  border-color: var(--color-ink-muted);
   background: transparent;
   color: var(--color-ink);
 }
 
-.button-primary:hover,
-.button-secondary:hover {
-  transform: translateY(-2px);
-}
+@media (hover: hover) and (pointer: fine) {
+  .button-primary:not(:disabled):hover,
+  .button-secondary:not(:disabled):hover {
+    transform: translateY(-2px);
+  }
 
-.button-primary:hover {
-  border-color: var(--color-ink-muted);
-  background: var(--color-ink-muted);
-}
+  .button-primary:not(:disabled):hover {
+    border-color: var(--color-ink-muted);
+    background: var(--color-ink-muted);
+  }
 
-.button-secondary:hover {
-  background: var(--color-sand);
-}
+  .button-secondary:not(:disabled):hover {
+    background: var(--color-sand);
+  }
 
-.button-primary:active,
-.button-secondary:active {
-  transform: translateY(0);
+  .button-primary:not(:disabled):active,
+  .button-secondary:not(:disabled):active {
+    transform: translateY(0);
+  }
 }
 
 .button-primary:disabled,
