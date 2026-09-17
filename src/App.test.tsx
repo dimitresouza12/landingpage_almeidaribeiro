@@ -14,7 +14,7 @@ describe('App', () => {
       }),
     ).toBeInTheDocument()
     expect(
-      screen.getByRole('button', { name: /entrar em contato/i }),
-    ).toBeInTheDocument()
+      screen.getAllByRole('button', { name: /entrar em contato/i }),
+    ).not.toHaveLength(0)
   })
 })

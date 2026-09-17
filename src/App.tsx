@@ -4,6 +4,7 @@ import {
   ContactChooser,
   type ContactTopic,
 } from './components/ContactChooser'
+import { PracticeExplorer } from './components/PracticeExplorer'
 
 function App() {
   const [topic, setTopic] = useState<ContactTopic>()
@@ -25,6 +26,7 @@ function App() {
         <button type="button" onClick={() => openContact()}>
           Entrar em contato
         </button>
+        <PracticeExplorer onContact={openContact} />
       </main>
 
       <ContactChooser
