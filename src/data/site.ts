@@ -1,6 +1,6 @@
 export type Audience = 'individual' | 'business'
 
-export interface Attorney {
+export type Attorney = {
   id: 'ana-paula' | 'deyvison'
   name: string
   oab: string
@@ -9,20 +9,20 @@ export interface Attorney {
   image?: string
 }
 
-export interface Service {
+export type Service = {
   id: string
   name: string
   description: string
 }
 
-export interface PracticeArea {
+export type PracticeArea = {
   id: string
   name: string
   audience: Audience
   services: Service[]
 }
 
-export interface Office {
+export type Office = {
   name: string
   address: string
   hours: string
@@ -50,89 +50,89 @@ export const attorneys: Attorney[] = [
 
 export const practiceAreas: PracticeArea[] = [
   {
-    id: 'direito-previdenciario',
+    id: 'previdenciario',
     name: 'Direito Previdenciário',
     audience: 'individual',
     services: [],
   },
   {
-    id: 'direito-civil-individual',
+    id: 'civil-pessoa',
     name: 'Direito Civil',
     audience: 'individual',
     services: [
       {
         id: 'divorcio',
         name: 'Divórcio',
-        description: 'Orientação jurídica para questões relacionadas a divórcio.',
+        description: 'Orientação jurídica para questões relacionadas ao divórcio.',
       },
       {
         id: 'guarda',
         name: 'Guarda',
-        description: 'Orientação jurídica para questões relacionadas a guarda.',
+        description: 'Orientação jurídica para questões relacionadas à guarda.',
       },
       {
         id: 'usucapiao',
         name: 'Usucapião',
-        description: 'Orientação jurídica para questões relacionadas a usucapião.',
+        description: 'Orientação jurídica para questões relacionadas à usucapião.',
       },
     ],
   },
   {
-    id: 'direito-consumidor-individual',
+    id: 'consumidor-pessoa',
     name: 'Direito do Consumidor',
     audience: 'individual',
     services: [],
   },
   {
-    id: 'direito-digital-individual',
+    id: 'digital-pessoa',
     name: 'Direito Digital',
     audience: 'individual',
     services: [],
   },
   {
-    id: 'direito-saude',
+    id: 'saude',
     name: 'Direito da Saúde',
     audience: 'individual',
     services: [],
   },
   {
-    id: 'direito-empresarial',
+    id: 'empresarial',
     name: 'Direito Empresarial',
     audience: 'business',
     services: [],
   },
   {
-    id: 'direito-agrario',
+    id: 'agrario',
     name: 'Direito Agrário',
     audience: 'business',
     services: [],
   },
   {
-    id: 'direito-trabalho',
+    id: 'trabalho',
     name: 'Direito do Trabalho',
     audience: 'business',
     services: [],
   },
   {
-    id: 'direito-civil-business',
+    id: 'civil-empresa',
     name: 'Direito Civil',
     audience: 'business',
     services: [],
   },
   {
-    id: 'direito-digital-business',
+    id: 'digital-empresa',
     name: 'Direito Digital',
     audience: 'business',
     services: [],
   },
   {
-    id: 'consultoria-juridica',
+    id: 'consultoria',
     name: 'Consultoria Jurídica',
     audience: 'business',
     services: [],
   },
   {
-    id: 'direito-consumidor-business',
+    id: 'consumidor-empresa',
     name: 'Direito do Consumidor',
     audience: 'business',
     services: [],

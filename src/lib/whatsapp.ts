@@ -1,4 +1,4 @@
-export interface WhatsAppTopic {
+export type WhatsAppTopic = {
   area?: string
   service?: string
   otherSubject?: boolean
