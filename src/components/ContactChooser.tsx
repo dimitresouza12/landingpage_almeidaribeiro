@@ -17,11 +17,10 @@ type ContactChooserProps = {
 
 function formatPhone(phone: string) {
   const digits = phone.replace(/\D/g, '')
-  const countryCode = digits.slice(0, 2)
   const areaCode = digits.slice(2, 4)
   const localNumber = digits.slice(4)
 
-  return `+${countryCode} (${areaCode}) ${localNumber.slice(0, 5)}-${localNumber.slice(5)}`
+  return `(${areaCode}) ${localNumber.slice(0, 5)}-${localNumber.slice(5)}`
 }
 
 export function ContactChooser({

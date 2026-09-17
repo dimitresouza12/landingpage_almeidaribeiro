@@ -35,6 +35,9 @@ describe('ContactChooser', () => {
       name: /deyvison ribeiro/i,
     })
 
+    expect(screen.getByText('(88) 99657-5592')).toBeInTheDocument()
+    expect(screen.getByText('(85) 99627-4319')).toBeInTheDocument()
+
     expect(anaLink).toHaveAttribute(
       'href',
       expect.stringContaining('Direito%20Civil'),

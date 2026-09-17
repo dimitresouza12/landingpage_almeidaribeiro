@@ -16,5 +16,8 @@ describe('App', () => {
     expect(
       screen.getByRole('button', { name: /entrar em contato/i }),
     ).toBeInTheDocument()
+    expect(
+      screen.getByRole('link', { name: /^pular para o conteúdo$/i }),
+    ).toHaveAttribute('href', '#main-content')
   })
 })

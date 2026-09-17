@@ -17,7 +17,7 @@ function App() {
   return (
     <div className="page-shell">
       <a className="skip-link" href="#main-content">
-        Ir para o conteúdo principal
+        Pular para o conteúdo
       </a>
 
       <main id="main-content">
