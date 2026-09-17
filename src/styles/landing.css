@@ -93,6 +93,93 @@
   transform: none;
 }
 
+.dialog-backdrop {
+  position: fixed;
+  z-index: 50;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  padding: var(--space-3);
+  background: rgb(61 44 37 / 0.58);
+}
+
+.contact-chooser {
+  position: relative;
+  width: min(100%, 38rem);
+  padding: clamp(var(--space-3), 6vw, var(--space-5));
+  border-radius: var(--radius-md);
+  background: var(--color-paper);
+  box-shadow: var(--shadow-sheet);
+}
+
+.contact-chooser__close {
+  position: absolute;
+  top: var(--space-2);
+  right: var(--space-2);
+  display: grid;
+  width: 2.75rem;
+  height: 2.75rem;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: var(--color-ink);
+  cursor: pointer;
+  place-items: center;
+}
+
+.contact-chooser__close svg {
+  width: 1.25rem;
+  height: 1.25rem;
+}
+
+.contact-chooser__title {
+  max-width: 12ch;
+  margin: 0 var(--space-5) var(--space-4) 0;
+  color: var(--color-ink);
+  font-family: var(--font-display);
+  font-size: clamp(1.75rem, 5vw, 2.5rem);
+  font-weight: 600;
+  letter-spacing: -0.025em;
+  line-height: 1.05;
+  text-wrap: balance;
+}
+
+.contact-chooser__choices {
+  display: grid;
+  gap: var(--space-2);
+}
+
+.attorney-choice {
+  display: grid;
+  gap: 0.125rem;
+  padding: var(--space-2);
+  border: 1px solid var(--color-line);
+  border-radius: var(--radius-sm);
+  color: var(--color-ink-muted);
+  text-decoration: none;
+  transition:
+    border-color var(--motion-fast),
+    background-color var(--motion-fast);
+}
+
+.attorney-choice strong {
+  color: var(--color-ink);
+  font-family: var(--font-display);
+  font-size: 1.25rem;
+  line-height: 1.25;
+}
+
+.attorney-choice:focus-visible {
+  border-color: var(--color-gold);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .attorney-choice:hover {
+    border-color: var(--color-gold);
+    background: var(--color-cream);
+  }
+}
+
 @media (max-width: 47.99rem) {
   .section {
     padding: var(--space-5) var(--space-2);
@@ -100,5 +187,13 @@
 
   .section-title {
     max-width: 17ch;
+  }
+
+  .dialog-backdrop {
+    padding: var(--space-1);
+  }
+
+  .contact-chooser {
+    padding: var(--space-3);
   }
 }
