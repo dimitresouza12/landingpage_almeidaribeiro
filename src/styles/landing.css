@@ -1,1 +1,112 @@
-/* Landing page styles will be added in Task 3. */
+.page-shell {
+  min-width: 0;
+  overflow: clip;
+}
+
+.section {
+  width: min(100%, 75rem);
+  margin-inline: auto;
+  padding: var(--space-2xl) clamp(var(--space-md), 4vw, var(--space-xl));
+}
+
+.eyebrow {
+  margin: 0 0 var(--space-sm);
+  color: var(--color-gold);
+  color: color-mix(in srgb, var(--color-gold) 76%, var(--color-ink));
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  line-height: 1.4;
+  text-transform: uppercase;
+}
+
+.section-title {
+  max-width: 18ch;
+  margin: 0;
+  color: var(--color-ink);
+  font-family: var(--font-display);
+  font-size: clamp(2.25rem, 5vw, 4.75rem);
+  font-weight: 600;
+  letter-spacing: -0.025em;
+  line-height: 1.02;
+  text-wrap: balance;
+}
+
+.button,
+.button-primary,
+.button-secondary {
+  display: inline-flex;
+  min-height: 44px;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-xs);
+  padding: 0.7rem var(--space-md);
+  border: 1px solid transparent;
+  border-radius: var(--radius-sm);
+  font-weight: 700;
+  line-height: 1.2;
+  text-align: center;
+  text-decoration: none;
+  cursor: pointer;
+  transition:
+    transform var(--motion-fast) ease,
+    background-color var(--motion-base) ease,
+    border-color var(--motion-base) ease,
+    color var(--motion-base) ease;
+}
+
+.button--primary,
+.button-primary {
+  border-color: var(--color-ink);
+  background: var(--color-ink);
+  color: var(--color-paper);
+}
+
+.button--secondary,
+.button-secondary {
+  border-color: var(--color-ink);
+  background: transparent;
+  color: var(--color-ink);
+}
+
+.button:hover,
+.button-primary:hover,
+.button-secondary:hover {
+  transform: translateY(-2px);
+}
+
+.button--primary:hover,
+.button-primary:hover {
+  border-color: color-mix(in srgb, var(--color-ink) 88%, black);
+  background: color-mix(in srgb, var(--color-ink) 88%, black);
+}
+
+.button--secondary:hover,
+.button-secondary:hover {
+  background: var(--color-sand);
+}
+
+.button:active,
+.button-primary:active,
+.button-secondary:active {
+  transform: translateY(0);
+}
+
+.button:disabled,
+.button-primary:disabled,
+.button-secondary:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+  transform: none;
+}
+
+@media (max-width: 40rem) {
+  .section {
+    padding: var(--space-xl) var(--space-sm);
+  }
+
+  .section-title {
+    font-size: clamp(2rem, 11vw, 3.25rem);
+    line-height: 1.06;
+  }
+}
