@@ -9,6 +9,14 @@
   padding: var(--space-6) var(--space-3);
 }
 
+#escritorio,
+#areas,
+#advogados,
+#como-funciona,
+#contato {
+  scroll-margin-top: 6.5rem;
+}
+
 .eyebrow {
   margin: 0 0 var(--space-2);
   color: var(--color-gold-text);
@@ -109,6 +117,9 @@
 .site-header__inner {
   display: grid;
   grid-template-columns: minmax(0, 1fr) auto;
+  grid-template-areas:
+    'wordmark menu'
+    'contact contact';
   gap: var(--space-2);
   width: min(100%, 75rem);
   min-height: 4.5rem;
@@ -119,6 +130,8 @@
 
 .wordmark {
   display: grid;
+  grid-area: wordmark;
+  min-width: 0;
   width: fit-content;
   min-height: 2.75rem;
   align-content: center;
@@ -144,10 +157,13 @@
 
 .site-nav {
   display: none;
+  grid-area: nav;
 }
 
 .site-menu {
+  grid-area: menu;
   position: relative;
+  justify-self: end;
 }
 
 .site-menu summary {
@@ -169,17 +185,21 @@
 }
 
 .site-menu nav {
+  display: none;
   position: absolute;
   z-index: 1;
   top: calc(100% + 0.5rem);
   right: 0;
-  display: grid;
   min-width: 13.5rem;
   padding: var(--space-1);
   border: 1px solid var(--color-line);
   border-radius: var(--radius-sm);
   background: var(--color-paper);
   box-shadow: var(--shadow-sheet);
+}
+
+.site-menu[open] nav:not([hidden]) {
+  display: grid;
 }
 
 .site-menu nav a {
@@ -193,6 +213,9 @@
 }
 
 .site-header__contact {
+  grid-area: contact;
+  min-height: 2.75rem;
+  justify-self: stretch;
   padding-inline: var(--space-2);
   font-size: 0.82rem;
   white-space: nowrap;
@@ -938,6 +961,7 @@
 
   .site-header__inner {
     grid-template-columns: minmax(11rem, 1fr) auto minmax(11rem, 1fr);
+    grid-template-areas: 'wordmark nav contact';
   }
 
   .site-nav {

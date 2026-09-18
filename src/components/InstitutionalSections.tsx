@@ -1,3 +1,5 @@
+import { useState } from 'react'
+
 import { attorneys, office } from '../data/site'
 import { buildWhatsAppUrl } from '../lib/whatsapp'
 
@@ -21,6 +23,12 @@ function AttorneyPhotoPlaceholder({ name }: { name: string }) {
 }
 
 export function Header({ onContact }: { onContact: ContactAction }) {
+  const [isMenuOpen, setIsMenuOpen] = useState(false)
+
+  function closeMenu() {
+    setIsMenuOpen(false)
+  }
+
   return (
     <header className="site-header">
       <div className="site-header__inner">
@@ -37,14 +45,18 @@ export function Header({ onContact }: { onContact: ContactAction }) {
           <a href="#contato">Contato</a>
         </nav>
 
-        <details className="site-menu">
+        <details
+          className="site-menu"
+          open={isMenuOpen}
+          onToggle={(event) => setIsMenuOpen(event.currentTarget.open)}
+        >
           <summary>Menu</summary>
-          <nav aria-label="Navegação do menu">
-            <a href="#escritorio">Escritório</a>
-            <a href="#areas">Áreas de atuação</a>
-            <a href="#advogados">Advogados</a>
-            <a href="#como-funciona">Como funciona</a>
-            <a href="#contato">Contato</a>
+          <nav aria-label="Navegação do menu" hidden={!isMenuOpen}>
+            <a href="#escritorio" onClick={closeMenu}>Escritório</a>
+            <a href="#areas" onClick={closeMenu}>Áreas de atuação</a>
+            <a href="#advogados" onClick={closeMenu}>Advogados</a>
+            <a href="#como-funciona" onClick={closeMenu}>Como funciona</a>
+            <a href="#contato" onClick={closeMenu}>Contato</a>
           </nav>
         </details>
 
