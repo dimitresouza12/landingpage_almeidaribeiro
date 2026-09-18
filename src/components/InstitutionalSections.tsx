@@ -13,13 +13,30 @@ function formatPhone(phone: string) {
   return `(${areaCode}) ${localNumber.slice(0, 5)}-${localNumber.slice(5)}`
 }
 
-function AttorneyPhotoPlaceholder({ name }: { name: string }) {
+function AttorneyPhotoPlaceholder() {
   return (
-    <div className="portrait-placeholder" role="img" aria-label={`Espaço reservado para a foto de ${name}`}>
+    <div className="portrait-placeholder" aria-hidden="true">
       <span>Foto profissional</span>
       <small>em breve</small>
     </div>
   )
+}
+
+function AttorneyPhoto({ attorney }: { attorney: (typeof attorneys)[number] }) {
+  if (attorney.image) {
+    return (
+      <img
+        className="attorney-profile__image"
+        src={attorney.image}
+        alt={`Foto de ${attorney.name}`}
+        width="720"
+        height="900"
+        loading="lazy"
+      />
+    )
+  }
+
+  return <AttorneyPhotoPlaceholder />
 }
 
 export function Header({ onContact }: { onContact: ContactAction }) {
@@ -89,11 +106,23 @@ export function Hero({ onContact }: { onContact: ContactAction }) {
         </div>
       </div>
 
-      <div className="hero__visual" aria-label="Espaço reservado para foto institucional do escritório" role="img">
-        <div className="hero__visual-caption">
-          <span>Imagem institucional</span>
-          <small>Espaço reservado para fotografia real</small>
-        </div>
+      <div className="hero__visual">
+        {office.heroImage ? (
+          <img
+            className="hero__image"
+            src={office.heroImage}
+            alt="Ambiente do escritório Almeida Ribeiro"
+            width="1200"
+            height="1500"
+          />
+        ) : (
+          <div className="hero__visual-placeholder" aria-hidden="true">
+            <div className="hero__visual-caption">
+              <span>Imagem institucional</span>
+              <small>Espaço reservado para fotografia real</small>
+            </div>
+          </div>
+        )}
       </div>
     </section>
   )
@@ -110,7 +139,7 @@ export function AttorneyProfiles({ onContact }: { onContact: ContactAction }) {
       <div className="attorney-profiles">
         {attorneys.map((attorney) => (
           <article className="attorney-profile" key={attorney.id}>
-            <AttorneyPhotoPlaceholder name={attorney.name} />
+            <AttorneyPhoto attorney={attorney} />
             <div className="attorney-profile__copy">
               <p className="attorney-profile__oab">{attorney.oab}</p>
               <h3>{attorney.name}</h3>

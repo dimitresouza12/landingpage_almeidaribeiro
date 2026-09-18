@@ -1,7 +1,7 @@
 import { fireEvent, render, screen, within } from '@testing-library/react'
 import { describe, expect, it } from 'vitest'
 
-import { Faq, Header } from './InstitutionalSections'
+import { AttorneyProfiles, Faq, Header, Hero } from './InstitutionalSections'
 
 describe('Header', () => {
   it('keeps mobile navigation links hidden until the native menu opens and closes it after a selection', () => {
@@ -42,5 +42,20 @@ describe('Faq', () => {
     fireEvent.click(summary)
 
     expect(disclosure).toHaveAttribute('open')
+  })
+})
+
+describe('Photo-ready placeholders', () => {
+  it('does not render invented lawyer photographs while approved image paths are absent', () => {
+    render(
+      <>
+        <Hero onContact={() => undefined} />
+        <AttorneyProfiles onContact={() => undefined} />
+      </>,
+    )
+
+    expect(screen.queryByAltText('Ambiente do escritório Almeida Ribeiro')).not.toBeInTheDocument()
+    expect(screen.queryByAltText('Foto de Ana Paula Almeida')).not.toBeInTheDocument()
+    expect(screen.queryByAltText('Foto de Deyvison Ribeiro')).not.toBeInTheDocument()
   })
 })
