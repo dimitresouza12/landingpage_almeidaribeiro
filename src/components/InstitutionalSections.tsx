@@ -29,8 +29,8 @@ function AttorneyPhoto({ attorney }: { attorney: (typeof attorneys)[number] }) {
         className="attorney-profile__image"
         src={attorney.image}
         alt={`Foto de ${attorney.name}`}
-        width="720"
-        height="900"
+        width="576"
+        height="720"
         loading="lazy"
       />
     )
@@ -113,7 +113,7 @@ export function Hero({ onContact }: { onContact: ContactAction }) {
             src={office.heroImage}
             alt="Ambiente do escritório Almeida Ribeiro"
             width="1200"
-            height="1500"
+            height="900"
           />
         ) : (
           <div className="hero__visual-placeholder" aria-hidden="true">
