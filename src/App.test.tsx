@@ -35,4 +35,19 @@ describe('App', () => {
 
     expect(screen.getByRole('dialog', { name: /escolha com quem falar/i })).toBeInTheDocument()
   })
+
+  it('moves focus to the main content from the skip link', () => {
+    render(<App />)
+    const skipLink = screen.getAllByRole('link', {
+      name: /pular para o conteúdo/i,
+    }).at(-1)
+    const mainContent = skipLink?.parentElement?.getElementsByTagName('main')[0]
+
+    expect(skipLink).not.toBeNull()
+    expect(mainContent).not.toBeNull()
+
+    fireEvent.click(skipLink!)
+
+    expect(mainContent).toHaveFocus()
+  })
 })

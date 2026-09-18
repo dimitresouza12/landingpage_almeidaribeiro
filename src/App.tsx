@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useRef, useState } from 'react'
 
 import {
   ContactChooser,
@@ -18,6 +18,7 @@ import { PracticeExplorer } from './components/PracticeExplorer'
 function App() {
   const [topic, setTopic] = useState<ContactTopic>()
   const [chooserOpen, setChooserOpen] = useState(false)
+  const mainContentRef = useRef<HTMLElement>(null)
 
   function openContact(nextTopic?: ContactTopic) {
     setTopic(nextTopic)
@@ -26,13 +27,17 @@ function App() {
 
   return (
     <div className="page-shell">
-      <a className="skip-link" href="#main-content">
+      <a
+        className="skip-link"
+        href="#main-content"
+        onClick={() => mainContentRef.current?.focus()}
+      >
         Pular para o conteúdo
       </a>
 
       <Header onContact={() => openContact()} />
 
-      <main id="main-content">
+      <main id="main-content" ref={mainContentRef} tabIndex={-1}>
         <Hero onContact={() => openContact()} />
         <PracticeExplorer onContact={openContact} />
         <AttorneyProfiles onContact={() => openContact()} />
