@@ -35,7 +35,7 @@ function App() {
       <main id="main-content">
         <Hero onContact={() => openContact()} />
         <PracticeExplorer onContact={openContact} />
-        <AttorneyProfiles />
+        <AttorneyProfiles onContact={() => openContact()} />
         <HowItWorks />
         <Faq />
         <ContactSection />

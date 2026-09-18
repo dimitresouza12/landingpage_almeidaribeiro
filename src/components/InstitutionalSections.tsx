@@ -33,8 +33,20 @@ export function Header({ onContact }: { onContact: ContactAction }) {
           <a href="#escritorio">Escritório</a>
           <a href="#areas">Áreas de atuação</a>
           <a href="#advogados">Advogados</a>
+          <a href="#como-funciona">Como funciona</a>
           <a href="#contato">Contato</a>
         </nav>
+
+        <details className="site-menu">
+          <summary>Menu</summary>
+          <nav aria-label="Navegação do menu">
+            <a href="#escritorio">Escritório</a>
+            <a href="#areas">Áreas de atuação</a>
+            <a href="#advogados">Advogados</a>
+            <a href="#como-funciona">Como funciona</a>
+            <a href="#contato">Contato</a>
+          </nav>
+        </details>
 
         <button className="button-primary site-header__contact" type="button" onClick={onContact}>
           Falar com o escritório
@@ -75,7 +87,7 @@ export function Hero({ onContact }: { onContact: ContactAction }) {
   )
 }
 
-export function AttorneyProfiles() {
+export function AttorneyProfiles({ onContact }: { onContact: ContactAction }) {
   return (
     <section className="attorneys-section section" id="advogados" aria-labelledby="attorneys-title">
       <div className="section-heading">
@@ -91,6 +103,9 @@ export function AttorneyProfiles() {
               <p className="attorney-profile__oab">{attorney.oab}</p>
               <h3>{attorney.name}</h3>
               <p>{attorney.bio}</p>
+              <button className="button-secondary attorney-profile__contact" type="button" onClick={onContact}>
+                Falar com o escritório
+              </button>
             </div>
           </article>
         ))}
@@ -101,13 +116,14 @@ export function AttorneyProfiles() {
 
 export function HowItWorks() {
   const steps = [
-    ['01', 'Escolha uma área ou outro assunto', 'Comece pelo tema que mais se aproxima da sua necessidade.'],
-    ['02', 'Selecione com quem falar', 'Você decide se prefere iniciar a conversa com Ana Paula ou Deyvison.'],
-    ['03', 'Continue no WhatsApp', 'O contato é encaminhado diretamente para o WhatsApp escolhido.'],
+    ['01', 'Escolha com quem falar', 'Defina se deseja iniciar o contato com Ana Paula Almeida ou Deyvison Ribeiro.'],
+    ['02', 'Explique o assunto', 'Conte, pelo WhatsApp, qual é o tema que motivou seu contato.'],
+    ['03', 'Envie as informações solicitadas', 'Compartilhe os dados e documentos que forem necessários para compreender a situação.'],
+    ['04', 'Receba orientação sobre os próximos passos', 'Após a conversa inicial, você recebe as orientações pertinentes para seguir.'],
   ]
 
   return (
-    <section className="how-it-works section" aria-labelledby="how-title">
+    <section className="how-it-works section" id="como-funciona" aria-labelledby="how-title">
       <div className="section-heading">
         <p className="eyebrow">Primeiro contato</p>
         <h2 className="section-title" id="how-title">Um caminho direto para iniciar a conversa.</h2>
@@ -140,12 +156,20 @@ export function Faq() {
           <p>Você escolhe uma área, outro assunto ou um dos advogados. A conversa começa diretamente pelo WhatsApp.</p>
         </details>
         <details>
-          <summary>O escritório atende empresas?</summary>
-          <p>Sim. Há caminhos de contato para demandas de empresas e para pessoas físicas na seção de áreas de atuação.</p>
+          <summary>O atendimento pode ser feito online?</summary>
+          <p>Sim. O escritório realiza atendimento online para todo o Brasil, com o contato inicial pelo WhatsApp.</p>
         </details>
         <details>
-          <summary>As informações da conversa são tratadas com sigilo?</summary>
-          <p>As informações compartilhadas no contato inicial são tratadas com a discrição própria da relação profissional.</p>
+          <summary>Há atendimento presencial em Limoeiro do Norte?</summary>
+          <p>Sim. O atendimento presencial é realizado em Limoeiro do Norte, no endereço informado nesta página.</p>
+        </details>
+        <details>
+          <summary>Posso escolher com qual advogado falar?</summary>
+          <p>Sim. Ao iniciar o contato, você pode escolher Ana Paula Almeida ou Deyvison Ribeiro.</p>
+        </details>
+        <details>
+          <summary>O escritório atende empresas?</summary>
+          <p>Sim. Há caminhos de contato para demandas de empresas e para pessoas físicas na seção de áreas de atuação.</p>
         </details>
       </div>
     </section>
@@ -202,9 +226,19 @@ export function ContactSection() {
         </div>
       </div>
 
-      <div className="map-placeholder" role="img" aria-label="Espaço reservado para mapa da localização do escritório">
-        <span>Localização do escritório</span>
-        <small>Mapa será inserido aqui</small>
+      <div className="map-placeholder">
+        <div>
+          <span>Localização do escritório</span>
+          <small>Mapa será inserido aqui</small>
+        </div>
+        <a
+          className="button-secondary map-placeholder__link"
+          href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(office.address)}`}
+          target="_blank"
+          rel="noreferrer"
+        >
+          Ver endereço no mapa
+        </a>
       </div>
     </section>
   )
@@ -218,10 +252,17 @@ export function Footer() {
           <p className="site-footer__name">Almeida Ribeiro Advogados Associados</p>
           <p>Atuação em Limoeiro do Norte, Vale do Jaguaribe e atendimento online para todo o Brasil.</p>
         </div>
+        <nav className="site-footer__internal-links" aria-label="Navegação do rodapé">
+          <a href="#escritorio">Escritório</a>
+          <a href="#areas">Áreas de atuação</a>
+          <a href="#advogados">Advogados</a>
+          <a href="#como-funciona">Como funciona</a>
+          <a href="#contato">Contato</a>
+        </nav>
         <div className="site-footer__links" aria-label="Contato direto no WhatsApp">
           {attorneys.map((attorney) => (
             <a href={buildWhatsAppUrl(attorney.phone)} key={attorney.id} target="_blank" rel="noreferrer">
-              {attorney.name}
+              {attorney.name} · {attorney.oab}
             </a>
           ))}
         </div>

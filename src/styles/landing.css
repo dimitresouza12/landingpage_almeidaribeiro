@@ -146,6 +146,52 @@
   display: none;
 }
 
+.site-menu {
+  position: relative;
+}
+
+.site-menu summary {
+  display: inline-flex;
+  min-height: 2.75rem;
+  align-items: center;
+  padding: 0.75rem var(--space-2);
+  border: 1px solid var(--color-line);
+  border-radius: var(--radius-sm);
+  color: var(--color-ink);
+  font-size: 0.82rem;
+  font-weight: 700;
+  cursor: pointer;
+  list-style: none;
+}
+
+.site-menu summary::-webkit-details-marker {
+  display: none;
+}
+
+.site-menu nav {
+  position: absolute;
+  z-index: 1;
+  top: calc(100% + 0.5rem);
+  right: 0;
+  display: grid;
+  min-width: 13.5rem;
+  padding: var(--space-1);
+  border: 1px solid var(--color-line);
+  border-radius: var(--radius-sm);
+  background: var(--color-paper);
+  box-shadow: var(--shadow-sheet);
+}
+
+.site-menu nav a {
+  display: flex;
+  min-height: 2.75rem;
+  align-items: center;
+  padding-inline: var(--space-1);
+  color: var(--color-ink);
+  font-weight: 700;
+  text-decoration: none;
+}
+
 .site-header__contact {
   padding-inline: var(--space-2);
   font-size: 0.82rem;
@@ -328,6 +374,10 @@
 .attorney-profile__copy > p:last-child {
   margin: var(--space-2) 0 0;
   color: var(--color-ink-muted);
+}
+
+.attorney-profile__contact {
+  margin-top: var(--space-3);
 }
 
 .how-it-works {
@@ -530,6 +580,7 @@
 
 .map-placeholder {
   display: grid;
+  gap: var(--space-2);
   min-height: 11rem;
   margin-top: var(--space-3);
   padding: var(--space-3);
@@ -544,8 +595,17 @@
   text-align: center;
 }
 
+.map-placeholder > div {
+  display: grid;
+  gap: 0.125rem;
+}
+
 .map-placeholder small {
   color: var(--color-ink-muted);
+}
+
+.map-placeholder__link {
+  background: var(--color-paper);
 }
 
 .site-footer {
@@ -574,11 +634,13 @@
   letter-spacing: -0.02em;
 }
 
+.site-footer__internal-links,
 .site-footer__links {
   display: grid;
   gap: var(--space-1);
 }
 
+.site-footer__internal-links a,
 .site-footer__links a {
   width: fit-content;
   min-height: 2.75rem;
@@ -884,6 +946,10 @@
     align-items: center;
   }
 
+  .site-menu {
+    display: none;
+  }
+
   .site-nav a {
     display: inline-flex;
     min-height: 2.75rem;
@@ -915,7 +981,7 @@
   }
 
   .steps-list {
-    grid-template-columns: repeat(3, minmax(0, 1fr));
+    grid-template-columns: repeat(4, minmax(0, 1fr));
   }
 
   .contact-section__grid {
@@ -934,6 +1000,7 @@
     transform: translateY(-2px);
   }
 
+  .site-footer__internal-links a:hover,
   .site-footer__links a:hover {
     color: var(--color-sand);
   }
