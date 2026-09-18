@@ -4,6 +4,15 @@ import {
   ContactChooser,
   type ContactTopic,
 } from './components/ContactChooser'
+import {
+  AttorneyProfiles,
+  ContactSection,
+  Faq,
+  Footer,
+  Header,
+  Hero,
+  HowItWorks,
+} from './components/InstitutionalSections'
 import { PracticeExplorer } from './components/PracticeExplorer'
 
 function App() {
@@ -21,13 +30,18 @@ function App() {
         Pular para o conteúdo
       </a>
 
+      <Header onContact={() => openContact()} />
+
       <main id="main-content">
-        <h1>Advocacia para pessoas e empresas.</h1>
-        <button type="button" onClick={() => openContact()}>
-          Entrar em contato
-        </button>
+        <Hero onContact={() => openContact()} />
         <PracticeExplorer onContact={openContact} />
+        <AttorneyProfiles />
+        <HowItWorks />
+        <Faq />
+        <ContactSection />
       </main>
+
+      <Footer />
 
       <ContactChooser
         open={chooserOpen}
