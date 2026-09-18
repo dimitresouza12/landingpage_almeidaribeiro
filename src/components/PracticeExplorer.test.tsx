@@ -1,8 +1,10 @@
-import { render, screen } from '@testing-library/react'
+import { afterEach, describe, expect, it, vi } from 'vitest'
+import { cleanup, render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import { describe, expect, it, vi } from 'vitest'
 
 import { PracticeExplorer } from './PracticeExplorer'
+
+afterEach(cleanup)
 
 describe('PracticeExplorer', () => {
   it('guides a visitor from audience to area and service', async () => {
@@ -34,5 +36,59 @@ describe('PracticeExplorer', () => {
     )
 
     expect(onContact).toHaveBeenLastCalledWith({ otherSubject: true })
+  })
+
+  it('changes the active audience with standard tab keyboard controls', async () => {
+    const user = userEvent.setup()
+
+    render(<PracticeExplorer onContact={vi.fn()} />)
+
+    const individualTab = screen.getByRole('tab', { name: /para você/i })
+    const businessTab = screen.getByRole('tab', {
+      name: /para sua empresa/i,
+    })
+
+    individualTab.focus()
+    await user.keyboard('{ArrowRight}')
+
+    expect(businessTab).toHaveFocus()
+    expect(businessTab).toHaveAttribute('aria-selected', 'true')
+    expect(individualTab).toHaveAttribute('aria-selected', 'false')
+    expect(screen.getByRole('tabpanel')).toHaveTextContent(
+      'Direito Empresarial',
+    )
+
+    await user.keyboard('{ArrowRight}')
+
+    expect(individualTab).toHaveFocus()
+    expect(individualTab).toHaveAttribute('aria-selected', 'true')
+
+    await user.keyboard('{ArrowDown}')
+
+    expect(businessTab).toHaveFocus()
+    expect(businessTab).toHaveAttribute('aria-selected', 'true')
+
+    await user.keyboard('{ArrowUp}')
+
+    expect(individualTab).toHaveFocus()
+    expect(individualTab).toHaveAttribute('aria-selected', 'true')
+
+    await user.keyboard('{Home}')
+
+    expect(individualTab).toHaveFocus()
+    expect(individualTab).toHaveAttribute('aria-selected', 'true')
+    expect(screen.getByRole('tabpanel')).toHaveTextContent(
+      'Direito Previdenciário',
+    )
+
+    await user.keyboard('{End}')
+
+    expect(businessTab).toHaveFocus()
+    expect(businessTab).toHaveAttribute('aria-selected', 'true')
+
+    await user.keyboard('{ArrowLeft}')
+
+    expect(individualTab).toHaveFocus()
+    expect(individualTab).toHaveAttribute('aria-selected', 'true')
   })
 })

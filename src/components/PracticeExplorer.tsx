@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react'
+import { useMemo, useRef, useState, type KeyboardEvent } from 'react'
 
 import {
   practiceAreas,
@@ -19,6 +19,10 @@ const audiences: Array<{ id: Audience; label: string }> = [
 export function PracticeExplorer({ onContact }: PracticeExplorerProps) {
   const [audience, setAudience] = useState<Audience>('individual')
   const [activeAreaId, setActiveAreaId] = useState('previdenciario')
+  const tabRefs = useRef<Record<Audience, HTMLButtonElement | null>>({
+    individual: null,
+    business: null,
+  })
   const areas = useMemo(
     () => practiceAreas.filter((area) => area.audience === audience),
     [audience],
@@ -33,6 +37,36 @@ export function PracticeExplorer({ onContact }: PracticeExplorerProps) {
 
     setAudience(nextAudience)
     setActiveAreaId(nextAreas.at(0)!.id)
+  }
+
+  function handleAudienceKeyDown(event: KeyboardEvent<HTMLButtonElement>) {
+    const currentIndex = audiences.findIndex(({ id }) => id === audience)
+    let nextIndex: number
+
+    switch (event.key) {
+      case 'ArrowRight':
+      case 'ArrowDown':
+        nextIndex = (currentIndex + 1) % audiences.length
+        break
+      case 'ArrowLeft':
+      case 'ArrowUp':
+        nextIndex = (currentIndex - 1 + audiences.length) % audiences.length
+        break
+      case 'Home':
+        nextIndex = 0
+        break
+      case 'End':
+        nextIndex = audiences.length - 1
+        break
+      default:
+        return
+    }
+
+    event.preventDefault()
+
+    const nextAudience = audiences[nextIndex].id
+    changeAudience(nextAudience)
+    tabRefs.current[nextAudience]?.focus()
   }
 
   return (
@@ -63,7 +97,11 @@ export function PracticeExplorer({ onContact }: PracticeExplorerProps) {
               aria-selected={selected}
               aria-controls="practice-services"
               tabIndex={selected ? 0 : -1}
+              ref={(element) => {
+                tabRefs.current[id] = element
+              }}
               onClick={() => changeAudience(id)}
+              onKeyDown={handleAudienceKeyDown}
             >
               {label}
             </button>
