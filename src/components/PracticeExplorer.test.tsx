@@ -32,7 +32,9 @@ describe('PracticeExplorer', () => {
     ).toBeInTheDocument()
 
     await user.click(
-      screen.getByRole('button', { name: /outro assunto/i }),
+      screen.getByRole('button', {
+        name: /não encontrou sua área\? fale com o escritório/i,
+      }),
     )
 
     expect(onContact).toHaveBeenLastCalledWith({ otherSubject: true })
@@ -54,9 +56,9 @@ describe('PracticeExplorer', () => {
     expect(businessTab).toHaveFocus()
     expect(businessTab).toHaveAttribute('aria-selected', 'true')
     expect(individualTab).toHaveAttribute('aria-selected', 'false')
-    expect(screen.getByRole('tabpanel')).toHaveTextContent(
-      'Direito Empresarial',
-    )
+    expect(
+      screen.getByRole('button', { name: /^direito empresarial$/i }),
+    ).toHaveAttribute('aria-pressed', 'true')
 
     await user.keyboard('{ArrowRight}')
 
@@ -77,9 +79,9 @@ describe('PracticeExplorer', () => {
 
     expect(individualTab).toHaveFocus()
     expect(individualTab).toHaveAttribute('aria-selected', 'true')
-    expect(screen.getByRole('tabpanel')).toHaveTextContent(
-      'Direito Previdenciário',
-    )
+    expect(
+      screen.getByRole('button', { name: /^direito previdenciário$/i }),
+    ).toHaveAttribute('aria-pressed', 'true')
 
     await user.keyboard('{End}')
 

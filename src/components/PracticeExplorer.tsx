@@ -110,67 +110,78 @@ export function PracticeExplorer({ onContact }: PracticeExplorerProps) {
       </div>
 
       <div className="practice-explorer__content">
-        <div className="area-grid" aria-label="Áreas disponíveis">
-          {areas.map((area) => (
-            <button
-              key={area.id}
-              className="area-button"
-              type="button"
-              aria-pressed={area.id === activeArea.id}
-              onClick={() => setActiveAreaId(area.id)}
-            >
-              {area.name}
-            </button>
-          ))}
-          <button
-            className="area-button area-button--other"
-            type="button"
-            onClick={() => onContact({ otherSubject: true })}
-          >
-            Outro assunto
-          </button>
+        <div className="area-list" aria-label="Áreas disponíveis">
+          {areas.map((area) => {
+            const selected = area.id === activeArea.id
+
+            return (
+              <div className="area-item" key={area.id}>
+                <button
+                  id={`area-${area.id}`}
+                  className="area-button"
+                  type="button"
+                  aria-pressed={selected}
+                  onClick={() => setActiveAreaId(area.id)}
+                >
+                  <span>{area.name}</span>
+                  <span aria-hidden="true" className="area-button__mark">
+                    {selected ? '−' : '+'}
+                  </span>
+                </button>
+
+                {selected && (
+                  <div
+                    className="service-panel"
+                    id="practice-services"
+                    role="tabpanel"
+                    aria-labelledby={`area-${area.id}`}
+                    aria-live="polite"
+                  >
+                    {area.services.length > 0 ? (
+                      <div className="service-list">
+                        {area.services.map((service) => (
+                          <button
+                            key={service.id}
+                            className="service-button"
+                            type="button"
+                            onClick={() =>
+                              onContact({
+                                area: area.name,
+                                service: service.name,
+                              })
+                            }
+                          >
+                            <strong>{service.name}</strong>
+                            <span>{service.description}</span>
+                          </button>
+                        ))}
+                      </div>
+                    ) : (
+                      <div className="service-panel__empty">
+                        <p>Entre em contato para falar sobre esta área.</p>
+                        <button
+                          className="button-primary"
+                          type="button"
+                          onClick={() => onContact({ area: area.name })}
+                        >
+                          Entrar em contato
+                        </button>
+                      </div>
+                    )}
+                  </div>
+                )}
+              </div>
+            )
+          })}
         </div>
 
-        <aside
-          className="service-panel"
-          id="practice-services"
-          role="tabpanel"
-          aria-labelledby={`${audience}-tab`}
-          aria-live="polite"
+        <button
+          className="practice-explorer__other"
+          type="button"
+          onClick={() => onContact({ otherSubject: true })}
         >
-          <p className="service-panel__label">{activeArea.name}</p>
-          {activeArea.services.length > 0 ? (
-            <div className="service-list">
-              {activeArea.services.map((service) => (
-                <button
-                  key={service.id}
-                  className="service-button"
-                  type="button"
-                  onClick={() =>
-                    onContact({
-                      area: activeArea.name,
-                      service: service.name,
-                    })
-                  }
-                >
-                  <strong>{service.name}</strong>
-                  <span>{service.description}</span>
-                </button>
-              ))}
-            </div>
-          ) : (
-            <div className="service-panel__empty">
-              <p>Entre em contato para falar sobre esta área.</p>
-              <button
-                className="button-primary"
-                type="button"
-                onClick={() => onContact({ area: activeArea.name })}
-              >
-                Entrar em contato
-              </button>
-            </div>
-          )}
-        </aside>
+          Não encontrou sua área? Fale com o escritório.
+        </button>
       </div>
     </section>
   )
