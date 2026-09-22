@@ -38,6 +38,7 @@ export const attorneys: Attorney[] = [
     oab: 'OAB/CE 57.336',
     phone: '5588996575592',
     bio: 'Advogada e consultora empresarial, com atuação para pessoas físicas e jurídicas nos setores público e privado.',
+    image: '/images/ana-paula-almeida.webp',
   },
   {
     id: 'deyvison',
@@ -45,6 +46,7 @@ export const attorneys: Attorney[] = [
     oab: 'OAB/CE 20.651',
     phone: '5585996274319',
     bio: 'Advogado e consultor empresarial, com atuação no setor público e privado e em Direito Processual.',
+    image: '/images/deyvison-ribeiro.webp',
   },
 ]
 
@@ -142,8 +144,9 @@ export const practiceAreas: PracticeArea[] = [
 export const office: Office = {
   name: 'Almeida Ribeiro Advogados Associados',
   address:
-    'R. Coronel Antônio Joaquim, 1881, sala 107, Centro, Limoeiro do Norte, CE, 62930-000',
+    'R. Coronel Antônio Joaquim, 1881, salas 107 e 112, Centro, Limoeiro do Norte, CE, 62930-000',
   hours: '8h às 11h e 14h às 17h',
   email: 'almeidaribeiro.socadv@gmail.com',
   instagram: 'https://instagram.com/almeidaribeiro_adv',
+  heroImage: '/images/equipe-almeida-ribeiro.webp',
 }

@@ -74,6 +74,16 @@ export function Header({ onContact }: { onContact: ContactAction }) {
             <a href="#advogados" onClick={closeMenu}>Advogados</a>
             <a href="#como-funciona" onClick={closeMenu}>Como funciona</a>
             <a href="#contato" onClick={closeMenu}>Contato</a>
+            <button
+              className="button-primary site-menu__contact"
+              type="button"
+              onClick={() => {
+                closeMenu()
+                onContact()
+              }}
+            >
+              Falar com o escritório
+            </button>
           </nav>
         </details>
 
@@ -91,7 +101,7 @@ export function Hero({ onContact }: { onContact: ContactAction }) {
       <div className="hero__content">
         <p className="eyebrow">Limoeiro do Norte · CE · Atendimento em todo o Brasil</p>
         <h1 className="hero__title" id="hero-title">
-          Direito aplicado à realidade de quem vive e empreende no Vale do Jaguaribe.
+          Direito aplicado à realidade de quem vive e empreende no Vale do Jaguaribe e em todo o Brasil.
         </h1>
         <p className="hero__intro">
           Orientação jurídica para pessoas e empresas, com escuta atenta e comunicação clara em cada etapa.
@@ -218,6 +228,9 @@ export function Faq() {
 }
 
 export function ContactSection() {
+  const [isMapActive, setIsMapActive] = useState(false)
+  const mapQuery = encodeURIComponent(office.address)
+
   return (
     <section className="contact-section section" id="contato" aria-labelledby="contact-title">
       <div className="contact-section__heading">
@@ -267,14 +280,30 @@ export function ContactSection() {
         </div>
       </div>
 
-      <div className="map-placeholder">
-        <div>
-          <span>Localização do escritório</span>
-          <small>Mapa será inserido aqui</small>
-        </div>
+      <div className="map-embed">
+        <iframe
+          className="map-embed__frame"
+          src={`https://www.google.com/maps?q=${mapQuery}&output=embed`}
+          title={`Mapa de localização — ${office.name}`}
+          loading="lazy"
+          referrerPolicy="no-referrer-when-downgrade"
+          aria-hidden={!isMapActive}
+          tabIndex={isMapActive ? undefined : -1}
+        />
+
+        {!isMapActive && (
+          <button
+            type="button"
+            className="map-embed__activate"
+            onClick={() => setIsMapActive(true)}
+          >
+            Toque para interagir com o mapa
+          </button>
+        )}
+
         <a
-          className="button-secondary map-placeholder__link"
-          href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(office.address)}`}
+          className="button-secondary map-embed__link"
+          href={`https://www.google.com/maps/search/?api=1&query=${mapQuery}`}
           target="_blank"
           rel="noreferrer"
         >
@@ -307,7 +336,12 @@ export function Footer() {
             </a>
           ))}
         </div>
-        <p className="site-footer__credit">Desenvolvido por Frank Dev | Soluções Web</p>
+        <p className="site-footer__credit">
+          Desenvolvido por{' '}
+          <a href="https://otimizai.net.br/" target="_blank" rel="noreferrer">
+            Otimiza AI
+          </a>
+        </p>
       </div>
     </footer>
   )

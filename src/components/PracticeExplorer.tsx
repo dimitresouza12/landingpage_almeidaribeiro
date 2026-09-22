@@ -3,7 +3,6 @@ import { useMemo, useRef, useState, type KeyboardEvent } from 'react'
 import {
   practiceAreas,
   type Audience,
-  type PracticeArea,
 } from '../data/site'
 import type { ContactTopic } from './ContactChooser'
 
@@ -18,7 +17,7 @@ const audiences: Array<{ id: Audience; label: string }> = [
 
 export function PracticeExplorer({ onContact }: PracticeExplorerProps) {
   const [audience, setAudience] = useState<Audience>('individual')
-  const [activeAreaId, setActiveAreaId] = useState('previdenciario')
+  const [activeAreaId, setActiveAreaId] = useState<string | null>('previdenciario')
   const tabRefs = useRef<Record<Audience, HTMLButtonElement | null>>({
     individual: null,
     business: null,
@@ -27,8 +26,6 @@ export function PracticeExplorer({ onContact }: PracticeExplorerProps) {
     () => practiceAreas.filter((area) => area.audience === audience),
     [audience],
   )
-  const activeArea: PracticeArea =
-    areas.find((area) => area.id === activeAreaId) ?? areas.at(0)!
 
   function changeAudience(nextAudience: Audience) {
     const nextAreas = practiceAreas.filter(
@@ -112,7 +109,7 @@ export function PracticeExplorer({ onContact }: PracticeExplorerProps) {
       <div className="practice-explorer__content">
         <div className="area-list" aria-label="Áreas disponíveis">
           {areas.map((area) => {
-            const selected = area.id === activeArea.id
+            const selected = area.id === activeAreaId
 
             return (
               <div className="area-item" key={area.id}>
@@ -121,7 +118,9 @@ export function PracticeExplorer({ onContact }: PracticeExplorerProps) {
                   className="area-button"
                   type="button"
                   aria-pressed={selected}
-                  onClick={() => setActiveAreaId(area.id)}
+                  onClick={() =>
+                    setActiveAreaId((current) => (current === area.id ? null : area.id))
+                  }
                 >
                   <span>{area.name}</span>
                   <span aria-hidden="true" className="area-button__mark">

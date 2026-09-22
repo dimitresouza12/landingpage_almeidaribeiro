@@ -45,8 +45,8 @@ describe('Faq', () => {
   })
 })
 
-describe('Photo-ready placeholders', () => {
-  it('does not render invented lawyer photographs while approved image paths are absent', () => {
+describe('Approved photographs', () => {
+  it('renders the approved office and attorney photographs from their configured paths', () => {
     render(
       <>
         <Hero onContact={() => undefined} />
@@ -54,8 +54,17 @@ describe('Photo-ready placeholders', () => {
       </>,
     )
 
-    expect(screen.queryByAltText('Ambiente do escritório Almeida Ribeiro')).not.toBeInTheDocument()
-    expect(screen.queryByAltText('Foto de Ana Paula Almeida')).not.toBeInTheDocument()
-    expect(screen.queryByAltText('Foto de Deyvison Ribeiro')).not.toBeInTheDocument()
+    expect(screen.getByAltText('Ambiente do escritório Almeida Ribeiro')).toHaveAttribute(
+      'src',
+      '/images/equipe-almeida-ribeiro.webp',
+    )
+    expect(screen.getByAltText('Foto de Ana Paula Almeida')).toHaveAttribute(
+      'src',
+      '/images/ana-paula-almeida.webp',
+    )
+    expect(screen.getByAltText('Foto de Deyvison Ribeiro')).toHaveAttribute(
+      'src',
+      '/images/deyvison-ribeiro.webp',
+    )
   })
 })

@@ -4,7 +4,7 @@
 }
 
 .section {
-  max-width: 75rem;
+  max-width: 82rem;
   margin-inline: auto;
   padding: var(--space-6) var(--space-3);
 }
@@ -14,7 +14,7 @@
 #advogados,
 #como-funciona,
 #contato {
-  scroll-margin-top: 8rem;
+  scroll-margin-top: 5.5rem;
 }
 
 .eyebrow {
@@ -117,14 +117,12 @@
 .site-header__inner {
   display: grid;
   grid-template-columns: minmax(0, 1fr) auto;
-  grid-template-areas:
-    'wordmark menu'
-    'contact contact';
+  grid-template-areas: 'wordmark menu';
   gap: var(--space-2);
-  width: min(100%, 75rem);
+  width: min(100%, 82rem);
   min-height: 4.5rem;
   margin-inline: auto;
-  padding: var(--space-1) var(--space-2);
+  padding: var(--space-1) var(--space-3);
   align-items: center;
 }
 
@@ -148,9 +146,9 @@
   margin-top: 0.25rem;
   color: var(--color-ink-muted);
   font-family: var(--font-body);
-  font-size: 0.56rem;
+  font-size: 0.75rem;
   font-weight: 700;
-  letter-spacing: 0.13em;
+  letter-spacing: 0.1em;
   line-height: 1.25;
   text-transform: uppercase;
 }
@@ -213,12 +211,16 @@
 }
 
 .site-header__contact {
-  grid-area: contact;
+  display: none;
   min-height: 2.75rem;
-  justify-self: stretch;
   padding-inline: var(--space-2);
   font-size: 0.82rem;
   white-space: nowrap;
+}
+
+.site-menu__contact {
+  width: 100%;
+  margin-top: var(--space-1);
 }
 
 .hero {
@@ -237,14 +239,14 @@
 }
 
 .hero__title {
-  max-width: 12.5ch;
+  max-width: 20ch;
   margin: 0;
   color: var(--color-ink);
   font-family: var(--font-display);
-  font-size: clamp(3rem, 10vw, 6.7rem);
+  font-size: clamp(2.5rem, 5.2vw, 4.5rem);
   font-weight: 600;
-  letter-spacing: -0.055em;
-  line-height: 0.91;
+  letter-spacing: -0.03em;
+  line-height: 1.04;
   text-wrap: balance;
 }
 
@@ -264,6 +266,8 @@
 
 .hero__visual {
   position: relative;
+  width: 100%;
+  min-width: 0;
   aspect-ratio: 4 / 3;
   min-height: 20rem;
   overflow: hidden;
@@ -358,13 +362,16 @@
 .attorney-profile {
   display: grid;
   overflow: hidden;
-  border-top: 1px solid var(--color-line);
+  border: 1px solid var(--color-line);
+  border-radius: var(--radius-md);
   background: var(--color-paper);
 }
 
 .portrait-placeholder {
   position: relative;
   display: grid;
+  width: 100%;
+  min-width: 0;
   aspect-ratio: 4 / 5;
   min-height: 16rem;
   padding: var(--space-2);
@@ -439,7 +446,7 @@
 }
 
 .how-it-works .eyebrow {
-  color: color-mix(in srgb, var(--color-sand) 82%, var(--color-paper));
+  color: color-mix(in srgb, var(--color-gold-bright) 82%, var(--color-paper));
 }
 
 .steps-list {
@@ -534,7 +541,7 @@
 
 .contact-attorneys {
   display: grid;
-  gap: var(--space-1);
+  gap: var(--space-2);
 }
 
 .contact-attorney {
@@ -600,9 +607,9 @@
 
 .office-details dt {
   color: var(--color-gold-text);
-  font-size: 0.72rem;
+  font-size: 0.75rem;
   font-weight: 700;
-  letter-spacing: 0.12em;
+  letter-spacing: 0.1em;
   text-transform: uppercase;
 }
 
@@ -625,34 +632,46 @@
   font-weight: 700;
 }
 
-.map-placeholder {
-  display: grid;
-  gap: var(--space-2);
-  min-height: 11rem;
+.map-embed {
+  position: relative;
+  min-height: 20rem;
   margin-top: var(--space-3);
-  padding: var(--space-3);
-  border: 1px dashed var(--color-line);
-  background:
-    repeating-linear-gradient(90deg, transparent 0 2.8rem, color-mix(in srgb, var(--color-line) 42%, transparent) 2.8rem 2.86rem),
-    repeating-linear-gradient(0deg, transparent 0 2.8rem, color-mix(in srgb, var(--color-line) 42%, transparent) 2.8rem 2.86rem),
-    var(--color-sand);
-  color: var(--color-ink);
-  align-content: center;
-  justify-items: center;
-  text-align: center;
+  border: 1px solid var(--color-line);
+  border-radius: var(--radius-md);
+  overflow: hidden;
 }
 
-.map-placeholder > div {
+.map-embed__frame {
+  display: block;
+  width: 100%;
+  height: 100%;
+  min-height: 20rem;
+  border: 0;
+  filter: grayscale(55%) sepia(8%) contrast(0.96);
+}
+
+.map-embed__activate {
+  position: absolute;
+  inset: 0;
   display: grid;
-  gap: 0.125rem;
+  place-items: center;
+  padding: var(--space-2);
+  border: 0;
+  background: color-mix(in srgb, var(--color-ink) 18%, transparent);
+  color: var(--color-paper);
+  font-weight: 700;
+  text-align: center;
+  text-shadow: 0 1px 6px rgb(61 44 37 / 0.55);
+  cursor: pointer;
 }
 
-.map-placeholder small {
-  color: var(--color-ink-muted);
-}
-
-.map-placeholder__link {
+.map-embed__link {
+  position: absolute;
+  right: var(--space-2);
+  bottom: var(--space-2);
+  z-index: 1;
   background: var(--color-paper);
+  box-shadow: var(--shadow-sheet);
 }
 
 .site-footer {
@@ -695,13 +714,20 @@
   align-items: center;
   color: var(--color-paper);
   font-weight: 700;
-  text-decoration-color: color-mix(in srgb, var(--color-gold) 76%, transparent);
+  text-decoration-color: color-mix(in srgb, var(--color-gold-bright) 76%, transparent);
   text-underline-offset: 0.25em;
 }
 
 .site-footer__credit {
   color: color-mix(in srgb, var(--color-paper) 60%, transparent);
   font-size: 0.8rem;
+}
+
+.site-footer__credit a {
+  color: color-mix(in srgb, var(--color-paper) 85%, transparent);
+  font-weight: 700;
+  text-decoration-color: color-mix(in srgb, var(--color-gold-bright) 76%, transparent);
+  text-underline-offset: 0.2em;
 }
 
 .practice-explorer__title {
@@ -985,13 +1011,23 @@
   .hero__actions > * {
     width: 100%;
   }
-
-  .site-header__contact {
-    padding-inline: var(--space-1);
-  }
 }
 
 @media (min-width: 48rem) {
+  .attorney-profiles {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .portrait-placeholder {
+    min-height: 23rem;
+  }
+
+  .steps-list {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (min-width: 60rem) {
   .site-header__inner {
     grid-template-columns: minmax(11rem, 1fr) auto minmax(11rem, 1fr);
     grid-template-areas: 'wordmark nav contact';
@@ -1018,6 +1054,7 @@
   }
 
   .site-header__contact {
+    display: inline-flex;
     justify-self: end;
   }
 
@@ -1025,24 +1062,14 @@
     grid-template-columns: minmax(0, 1.05fr) minmax(20rem, 0.75fr);
   }
 
-  .hero__visual {
-    min-height: 31rem;
-  }
-
-  .attorney-profiles {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
-
-  .portrait-placeholder {
-    min-height: 23rem;
-  }
-
-  .steps-list {
-    grid-template-columns: repeat(4, minmax(0, 1fr));
-  }
-
   .contact-section__grid {
     grid-template-columns: minmax(0, 1.05fr) minmax(17rem, 0.65fr);
+  }
+}
+
+@media (min-width: 64rem) {
+  .steps-list {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
   }
 }
 
@@ -1058,7 +1085,8 @@
   }
 
   .site-footer__internal-links a:hover,
-  .site-footer__links a:hover {
+  .site-footer__links a:hover,
+  .site-footer__credit a:hover {
     color: var(--color-sand);
   }
 }
