@@ -136,7 +136,7 @@ function AreaCard({
 
 export function PracticeExplorer({ onContact }: PracticeExplorerProps) {
   const [audience, setAudience] = useState<Audience>('individual')
-  const [activeAreaId, setActiveAreaId] = useState<string | null>('previdenciario')
+  const [activeAreaId, setActiveAreaId] = useState<string | null>(null)
   const tabRefs = useRef<Record<Audience, HTMLButtonElement | null>>({
     individual: null,
     business: null,
@@ -148,12 +148,8 @@ export function PracticeExplorer({ onContact }: PracticeExplorerProps) {
   )
 
   function changeAudience(nextAudience: Audience) {
-    const nextAreas = practiceAreas.filter(
-      (area) => area.audience === nextAudience,
-    )
-
     setAudience(nextAudience)
-    setActiveAreaId(nextAreas.at(0)!.id)
+    setActiveAreaId(null)
   }
 
   function handleAudienceKeyDown(event: KeyboardEvent<HTMLButtonElement>) {

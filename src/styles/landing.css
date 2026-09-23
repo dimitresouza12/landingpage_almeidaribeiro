@@ -216,6 +216,18 @@
   text-decoration: none;
 }
 
+.wordmark img {
+  display: block;
+  width: auto;
+  height: 3.5rem;
+}
+
+@media (min-width: 60rem) {
+  .wordmark img {
+    height: 3.75rem;
+  }
+}
+
 .wordmark small {
   margin-top: 0.25rem;
   color: var(--color-ink-muted);
@@ -441,10 +453,13 @@
   .hero {
     margin-top: calc(-4.5rem - 1px);
     padding: 0;
+    /* Text sits at the bottom so it doesn't cover the attorneys' faces,
+       which are in the upper part of the photo. */
+    justify-content: flex-end;
   }
 
   .hero__inner {
-    padding: calc(4.5rem + var(--space-6)) var(--space-3) var(--space-6);
+    padding: calc(4.5rem + var(--space-5)) var(--space-3) var(--space-5);
   }
 
   .hero__visual {
@@ -866,10 +881,12 @@
   min-height: 11.5rem;
   align-content: start;
   padding: var(--space-3);
-  border: 1px solid var(--color-line);
+  border: 1px solid color-mix(in srgb, var(--color-gold-bright) 28%, transparent);
   border-radius: var(--radius-md);
-  background: var(--color-paper);
-  color: var(--color-ink);
+  background:
+    radial-gradient(circle at 100% 0%, color-mix(in srgb, var(--color-gold-bright) 14%, transparent), transparent 55%),
+    var(--color-ink);
+  color: var(--color-paper);
   text-decoration: none;
   transition:
     border-color var(--motion-fast),
@@ -880,12 +897,12 @@
 
 .contact-attorney > span,
 .contact-attorney > small {
-  color: var(--color-ink-muted);
+  color: color-mix(in srgb, var(--color-paper) 70%, transparent);
   font-size: 0.8rem;
 }
 
 .contact-attorney > span {
-  color: var(--color-gold-text);
+  color: var(--color-gold-bright);
   font-weight: 700;
   letter-spacing: 0.07em;
   text-transform: uppercase;
@@ -908,8 +925,8 @@
   margin-top: var(--space-3);
   padding: 0.6rem 1.1rem;
   border-radius: 999px;
-  background: var(--color-ink);
-  color: var(--color-paper);
+  background: var(--color-gold-bright);
+  color: var(--color-ink);
   font-size: 0.82rem;
   font-style: normal;
   font-weight: 700;
@@ -976,37 +993,17 @@
   border: 1px solid var(--color-line);
   border-radius: var(--radius-md);
   overflow: hidden;
-  text-decoration: none;
   transition: box-shadow var(--motion-base);
 }
 
-.map-embed__preview {
-  display: flex;
+.map-embed__frame {
+  display: block;
   width: 100%;
   height: 100%;
   min-height: 20rem;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: var(--space-2);
-  background:
-    radial-gradient(circle at 50% 42%, color-mix(in srgb, var(--color-gold) 14%, transparent), transparent 60%),
-    var(--color-sand);
-  color: var(--color-ink-muted);
-  text-align: center;
-}
-
-.map-embed__preview svg {
-  width: 2.5rem;
-  height: 2.5rem;
-  color: var(--color-gold);
-}
-
-.map-embed__address {
-  max-width: 26rem;
-  padding-inline: var(--space-3);
-  font-size: 0.9rem;
-  line-height: 1.5;
+  border: 0;
+  filter: grayscale(55%) sepia(8%) contrast(0.96);
+  pointer-events: none;
 }
 
 .map-embed::after {
@@ -1017,15 +1014,25 @@
   pointer-events: none;
 }
 
+.map-embed__overlay {
+  position: absolute;
+  z-index: 1;
+  inset: 0;
+  cursor: pointer;
+}
+
 .map-embed__link {
   position: absolute;
   left: 50%;
   bottom: var(--space-3);
-  z-index: 1;
+  z-index: 2;
   display: inline-flex;
   align-items: center;
+  justify-content: center;
   gap: 0.6rem;
   padding: 0.85rem 1.6rem;
+  white-space: nowrap;
+  text-decoration: none;
   transform: translateX(-50%);
   border-radius: 999px;
   background: var(--color-gold-bright);
@@ -1044,7 +1051,7 @@
 }
 
 @media (hover: hover) and (pointer: fine) {
-  .map-embed:hover .map-embed__link {
+  .map-embed__link:hover {
     transform: translateX(-50%) translateY(-3px);
     box-shadow: 0 1rem 2.25rem color-mix(in srgb, var(--color-ink) 42%, transparent);
   }
@@ -1061,6 +1068,8 @@
   width: min(100%, 75rem);
   margin-inline: auto;
   padding: var(--space-5) var(--space-2);
+  justify-items: center;
+  text-align: center;
 }
 
 .site-footer p {
@@ -1068,18 +1077,18 @@
   margin: 0;
 }
 
-.site-footer__name {
-  color: var(--color-paper);
-  font-family: var(--font-display);
-  font-size: 1.35rem;
-  font-weight: 600;
-  letter-spacing: -0.02em;
+.site-footer__logo {
+  display: block;
+  width: auto;
+  height: 5.5rem;
+  margin: 0 auto var(--space-2);
 }
 
 .site-footer__internal-links,
 .site-footer__links {
   display: grid;
   gap: var(--space-1);
+  justify-items: center;
 }
 
 .site-footer__internal-links a,
@@ -1321,8 +1330,44 @@
   overflow-y: auto;
   padding: clamp(var(--space-3), 6vw, var(--space-5));
   border-radius: var(--radius-md);
-  background: var(--color-paper);
+  background: var(--color-ink);
   box-shadow: var(--shadow-sheet);
+  isolation: isolate;
+}
+
+.contact-chooser {
+  /* leaves the top band free for the AR monogram */
+  padding-top: 8rem;
+}
+
+/* Same treatment as the hero: the AR monogram stands in for the photo, dimmed
+   under a brown gradient so the text on top stays readable. */
+.contact-chooser::before,
+.contact-chooser::after {
+  content: '';
+  position: absolute;
+  z-index: -1;
+  inset: 0;
+  pointer-events: none;
+}
+
+.contact-chooser::before {
+  background: url('/images/logo-ar.webp') center 1.75rem / auto 4.5rem no-repeat;
+  opacity: 0.95;
+}
+
+.contact-chooser::after {
+  background:
+    radial-gradient(circle at 50% 0%, color-mix(in srgb, var(--color-gold-bright) 14%, transparent), transparent 60%),
+    linear-gradient(180deg, color-mix(in srgb, var(--color-ink) 55%, transparent) 0%, color-mix(in srgb, var(--color-ink) 78%, transparent) 55%, var(--color-ink) 100%);
+}
+
+.contact-chooser .eyebrow {
+  color: var(--color-gold-bright);
+}
+
+.contact-chooser :focus-visible {
+  outline-color: var(--color-gold-bright);
 }
 
 .contact-chooser__close {
@@ -1335,7 +1380,7 @@
   padding: 0;
   border: 0;
   background: transparent;
-  color: var(--color-ink);
+  color: var(--color-paper);
   cursor: pointer;
   place-items: center;
 }
@@ -1348,7 +1393,7 @@
 .contact-chooser__title {
   max-width: 22ch;
   margin: 0 var(--space-5) var(--space-4) 0;
-  color: var(--color-ink);
+  color: var(--color-paper);
   font-family: var(--font-display);
   font-size: clamp(1.75rem, 5vw, 2.5rem);
   font-weight: 600;
@@ -1368,9 +1413,11 @@
   align-items: center;
   column-gap: var(--space-2);
   padding: var(--space-2);
-  border: 1px solid var(--color-line);
+  border: 1px solid color-mix(in srgb, var(--color-paper) 22%, transparent);
   border-radius: var(--radius-md);
-  color: var(--color-ink-muted);
+  background: color-mix(in srgb, var(--color-paper) 8%, transparent);
+  color: color-mix(in srgb, var(--color-paper) 74%, transparent);
+  backdrop-filter: blur(6px);
   text-decoration: none;
   transition:
     border-color var(--motion-fast),
@@ -1378,20 +1425,13 @@
     transform var(--motion-fast);
 }
 
-.attorney-choice__icon {
-  display: grid;
+.attorney-choice__avatar {
   grid-row: 1 / 3;
-  width: 2.75rem;
-  height: 2.75rem;
-  border-radius: 999px;
-  background: var(--color-cream);
-  color: var(--color-gold);
-  place-items: center;
-}
-
-.attorney-choice__icon svg {
-  width: 1.35rem;
-  height: 1.35rem;
+  width: 5rem;
+  height: 6.25rem;
+  border-radius: var(--radius-md);
+  background: var(--color-sand);
+  object-fit: cover;
 }
 
 .attorney-choice__body {
@@ -1400,7 +1440,7 @@
 }
 
 .attorney-choice strong {
-  color: var(--color-ink);
+  color: var(--color-paper);
   font-family: var(--font-display);
   font-size: 1.25rem;
   line-height: 1.25;
@@ -1412,7 +1452,7 @@
   gap: 0.4rem;
   grid-column: 2;
   margin-top: var(--space-1);
-  color: var(--color-gold-text);
+  color: var(--color-gold-bright);
   font-size: 0.86rem;
   font-weight: 700;
 }
@@ -1424,13 +1464,13 @@
 }
 
 .attorney-choice:focus-visible {
-  border-color: var(--color-gold);
+  border-color: var(--color-gold-bright);
 }
 
 @media (hover: hover) and (pointer: fine) {
   .attorney-choice:hover {
-    border-color: var(--color-gold);
-    background: var(--color-cream);
+    border-color: var(--color-gold-bright);
+    background: color-mix(in srgb, var(--color-paper) 16%, transparent);
     transform: translateY(-2px);
   }
 
@@ -1456,7 +1496,7 @@
   .contact-chooser {
     width: 100%;
     max-block-size: calc(100dvh - 3rem);
-    padding: var(--space-3);
+    padding: 8rem var(--space-3) var(--space-3);
     border-radius: 1.5rem 1.5rem 0 0;
   }
 
@@ -1545,14 +1585,13 @@
   }
 
   .contact-attorney:hover {
-    border-color: var(--color-gold);
-    background: var(--color-cream);
-    box-shadow: 0 0.75rem 1.75rem rgb(61 44 37 / 0.1);
+    border-color: var(--color-gold-bright);
+    box-shadow: 0 1rem 2.25rem rgb(61 44 37 / 0.28);
     transform: translateY(-2px);
   }
 
   .contact-attorney:hover em {
-    background: var(--color-gold);
+    background: var(--color-paper);
   }
 
   .contact-attorney:hover em::after {
@@ -1573,7 +1612,8 @@
 .hero :focus-visible,
 .marquee :focus-visible,
 .how-it-works :focus-visible,
-.site-footer :focus-visible {
+.site-footer :focus-visible,
+.contact-attorney:focus-visible {
   outline-color: var(--color-gold-bright);
 }
 
@@ -1592,7 +1632,18 @@
   cursor: pointer;
   box-shadow: 0 0.75rem 1.75rem color-mix(in srgb, var(--color-ink) 38%, transparent);
   place-items: center;
-  transition: transform var(--motion-fast), box-shadow var(--motion-fast);
+  visibility: hidden;
+  opacity: 0;
+  transition:
+    transform var(--motion-fast),
+    box-shadow var(--motion-fast),
+    opacity var(--motion-base),
+    visibility var(--motion-base);
+}
+
+.floating-contact--visible {
+  visibility: visible;
+  opacity: 1;
 }
 
 .floating-contact svg {

@@ -58,7 +58,7 @@ describe('PracticeExplorer', () => {
     expect(individualTab).toHaveAttribute('aria-selected', 'false')
     expect(
       screen.getByRole('button', { name: /^direito empresarial$/i }),
-    ).toHaveAttribute('aria-pressed', 'true')
+    ).toHaveAttribute('aria-pressed', 'false')
 
     await user.keyboard('{ArrowRight}')
 
@@ -81,7 +81,7 @@ describe('PracticeExplorer', () => {
     expect(individualTab).toHaveAttribute('aria-selected', 'true')
     expect(
       screen.getByRole('button', { name: /^direito previdenciário$/i }),
-    ).toHaveAttribute('aria-pressed', 'true')
+    ).toHaveAttribute('aria-pressed', 'false')
 
     await user.keyboard('{End}')
 

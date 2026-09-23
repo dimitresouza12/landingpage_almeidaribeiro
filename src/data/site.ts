@@ -7,6 +7,7 @@ export type Attorney = {
   phone: string
   bio: string
   image?: string
+  avatar?: string
 }
 
 export type Service = {
@@ -44,6 +45,7 @@ export const attorneys: Attorney[] = [
     phone: '5588996575592',
     bio: 'Advogada e consultora empresarial, com atuação para pessoas físicas e jurídicas nos setores público e privado.',
     image: '/images/ana-paula-almeida.webp',
+    avatar: '/images/avatar-ana-paula-almeida.webp',
   },
   {
     id: 'deyvison',
@@ -52,6 +54,7 @@ export const attorneys: Attorney[] = [
     phone: '5585996274319',
     bio: 'Advogado e consultor empresarial, com atuação no setor público e privado e em Direito Processual.',
     image: '/images/deyvison-ribeiro.webp',
+    avatar: '/images/avatar-deyvison-ribeiro.webp',
   },
 ]
 

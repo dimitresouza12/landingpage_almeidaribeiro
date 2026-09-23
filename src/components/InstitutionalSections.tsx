@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { MapPin, MessageCircle } from 'lucide-react'
+import { MessageCircle } from 'lucide-react'
 
 import { attorneys, office, practiceAreas } from '../data/site'
 import { buildWhatsAppUrl } from '../lib/whatsapp'
@@ -55,8 +55,12 @@ export function Header({ onContact }: { onContact: ContactAction }) {
     <header className={`site-header${isScrolled ? ' site-header--scrolled' : ''}`}>
       <div className="site-header__inner">
         <a className="wordmark" href="#escritorio" aria-label="Almeida Ribeiro Advogados Associados, início">
-          <span>Almeida Ribeiro</span>
-          <small>Advogados Associados</small>
+          <img
+            src="/images/logo-almeida-ribeiro.webp"
+            alt="Almeida Ribeiro Advogados Associados"
+            width="1200"
+            height="440"
+          />
         </a>
 
         <nav className="site-nav" aria-label="Navegação principal">
@@ -123,9 +127,13 @@ function buildHeroSrcSet(basePath: string) {
 // otherwise buried in the header's dropdown menu once the visitor scrolls
 // past the hero.
 export function FloatingContact({ onContact }: { onContact: ContactAction }) {
+  // Hidden while the hero is on screen: its own buttons are right there and
+  // the floating one would overlap them.
+  const pastHero = useScrolled(400)
+
   return (
     <button
-      className="floating-contact"
+      className={`floating-contact${pastHero ? ' floating-contact--visible' : ''}`}
       type="button"
       onClick={onContact}
       aria-label="Falar com o escritório pelo WhatsApp"
@@ -144,7 +152,7 @@ export function Hero({ onContact }: { onContact: ContactAction }) {
         <div className="hero__content">
           <p className="eyebrow">Limoeiro do Norte · CE · Atendimento em todo o Brasil</p>
           <h1 className="hero__title" id="hero-title">
-            Direito aplicado à realidade de quem vive e empreende no Vale do Jaguaribe e em todo o Brasil.
+            Direito aplicado à realidade de quem vive e empreende.
           </h1>
           <p className="hero__intro">
             Orientação jurídica para pessoas e empresas, com escuta atenta e comunicação clara em cada etapa.
@@ -398,30 +406,42 @@ export function ContactSection() {
         </div>
       </div>
 
-      {/* A static preview instead of an embedded Google Maps iframe: the iframe
-          pulled in a heavy third-party bundle on every page load just to show
-          a small preview that only ever gets clicked through to Maps anyway,
-          and nesting an iframe inside an <a> is invalid HTML (iframe is
-          interactive content). */}
-      <a
-        className="map-embed"
-        href={mapHref}
-        target="_blank"
-        rel="noreferrer"
-        aria-label={`Abrir localização de ${office.name} no Google Maps`}
-      >
-        <span className="map-embed__preview" aria-hidden="true">
-          <MapPin strokeWidth={1.5} />
-          <span className="map-embed__address">{office.address}</span>
-        </span>
+      {/* The iframe sits next to the link, not inside it: an <iframe> is
+          interactive content and can't be nested in an <a>. */}
+      <div className="map-embed">
+        <iframe
+          className="map-embed__frame"
+          src={`https://www.google.com/maps?q=${lat},${lng}&z=16&output=embed`}
+          title={`Mapa de localização — ${office.name}`}
+          loading="lazy"
+          referrerPolicy="no-referrer-when-downgrade"
+          tabIndex={-1}
+        />
 
-        <span className="map-embed__link">
+        {/* Clicking anywhere on the map opens Maps. Hidden from assistive tech
+            and the tab order since the button below is the real link. */}
+        <a
+          className="map-embed__overlay"
+          href={mapHref}
+          target="_blank"
+          rel="noreferrer"
+          aria-hidden="true"
+          tabIndex={-1}
+        />
+
+        <a
+          className="map-embed__link"
+          href={mapHref}
+          target="_blank"
+          rel="noreferrer"
+          aria-label={`Abrir localização de ${office.name} no Google Maps`}
+        >
           Ver endereço no mapa
           <svg aria-hidden="true" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path d="M5 15L15 5M15 5H7M15 5V13" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
           </svg>
-        </span>
-      </a>
+        </a>
+      </div>
     </section>
   )
 }
@@ -431,7 +451,14 @@ export function Footer() {
     <footer className="site-footer">
       <div className="site-footer__inner">
         <div>
-          <p className="site-footer__name">Almeida Ribeiro Advogados Associados</p>
+          <img
+            className="site-footer__logo"
+            src="/images/logo-almeida-ribeiro.webp"
+            alt="Almeida Ribeiro Advogados Associados"
+            width="1200"
+            height="440"
+            loading="lazy"
+          />
           <p>Atuação em Limoeiro do Norte, Vale do Jaguaribe e atendimento online para todo o Brasil.</p>
         </div>
         <nav className="site-footer__internal-links" aria-label="Navegação do rodapé">

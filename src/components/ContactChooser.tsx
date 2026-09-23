@@ -1,5 +1,5 @@
 import { useEffect, useRef } from 'react'
-import { MessageCircle, X } from 'lucide-react'
+import { X } from 'lucide-react'
 
 import { attorneys } from '../data/site'
 import {
@@ -196,9 +196,15 @@ export function ContactChooser({
               target="_blank"
               rel="noreferrer"
             >
-              <span className="attorney-choice__icon" aria-hidden="true">
-                <MessageCircle strokeWidth={1.75} />
-              </span>
+              {attorney.avatar && (
+                <img
+                  className="attorney-choice__avatar"
+                  src={attorney.avatar}
+                  alt=""
+                  width="240"
+                  height="300"
+                />
+              )}
               <span className="attorney-choice__body">
                 <strong>{attorney.name}</strong>
                 <span>{attorney.oab}</span>
