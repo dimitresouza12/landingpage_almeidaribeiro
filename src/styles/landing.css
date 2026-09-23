@@ -254,10 +254,10 @@
   z-index: 1;
   top: calc(100% + 0.5rem);
   right: 0;
-  min-width: 13.5rem;
-  padding: var(--space-1);
+  min-width: 16rem;
+  padding: var(--space-2);
   border: 1px solid var(--color-line);
-  border-radius: var(--radius-sm);
+  border-radius: 1.25rem;
   background: var(--color-paper);
   box-shadow: var(--shadow-sheet);
 }
@@ -286,7 +286,11 @@
 
 .site-menu__contact {
   width: 100%;
-  margin-top: var(--space-1);
+  min-height: 2.75rem;
+  margin-top: var(--space-2);
+  padding-inline: var(--space-2);
+  font-size: 0.86rem;
+  white-space: nowrap;
 }
 
 .hero {
@@ -738,6 +742,10 @@
 }
 
 @media (max-width: 47.99rem) {
+  .steps-list {
+    gap: var(--space-3);
+  }
+
   .steps-list li {
     padding-top: 0;
     padding-left: 2.75rem;
@@ -747,7 +755,7 @@
     top: 0.875rem;
     left: 0.875rem;
     width: 2px;
-    height: calc(100% + var(--space-4) + 1.75rem);
+    height: calc(100% + var(--space-3) + 0.875rem);
   }
 
   .steps-list li:last-child::before {
@@ -841,11 +849,15 @@
   align-content: start;
   padding: var(--space-3);
   border: 1px solid var(--color-line);
-  border-radius: var(--radius-sm);
+  border-radius: var(--radius-md);
   background: var(--color-paper);
   color: var(--color-ink);
   text-decoration: none;
-  transition: border-color var(--motion-fast), background-color var(--motion-fast), transform var(--motion-fast);
+  transition:
+    border-color var(--motion-fast),
+    background-color var(--motion-fast),
+    transform var(--motion-fast),
+    box-shadow var(--motion-fast);
 }
 
 .contact-attorney > span,
@@ -871,12 +883,27 @@
 }
 
 .contact-attorney em {
-  margin-top: auto;
-  padding-top: var(--space-2);
-  color: var(--color-ink);
-  font-size: 0.88rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  width: fit-content;
+  margin-top: var(--space-3);
+  padding: 0.6rem 1.1rem;
+  border-radius: 999px;
+  background: var(--color-ink);
+  color: var(--color-paper);
+  font-size: 0.82rem;
   font-style: normal;
   font-weight: 700;
+  transition:
+    background-color var(--motion-fast),
+    transform var(--motion-fast);
+}
+
+.contact-attorney em::after {
+  content: '\2192';
+  display: inline-block;
+  transition: transform var(--motion-fast);
 }
 
 .office-details {
@@ -1049,27 +1076,31 @@
   display: inline-flex;
   gap: 0.25rem;
   margin-top: var(--space-4);
-  padding: 0.25rem;
-  border: 1px solid var(--color-line);
-  border-radius: var(--radius-sm);
+  padding: 0.3rem;
+  border: 0;
+  border-radius: 999px;
   background: var(--color-sand);
 }
 
 .audience-tab {
   min-height: 2.75rem;
-  padding: 0.625rem var(--space-2);
-  border: 1px solid transparent;
-  border-radius: calc(var(--radius-sm) - 0.125rem);
+  padding: 0.625rem var(--space-3);
+  border: 0;
+  border-radius: 999px;
   background: transparent;
   color: var(--color-ink-muted);
   font-weight: 700;
   cursor: pointer;
+  transition:
+    background-color var(--motion-fast),
+    color var(--motion-fast),
+    box-shadow var(--motion-fast);
 }
 
 .audience-tab[aria-selected='true'] {
-  border-color: var(--color-ink);
-  background: var(--color-paper);
-  color: var(--color-ink);
+  background: var(--color-ink);
+  color: var(--color-paper);
+  box-shadow: 0 0.4rem 1rem color-mix(in srgb, var(--color-ink) 35%, transparent);
 }
 
 .practice-explorer__content {
@@ -1217,7 +1248,7 @@
 }
 
 @media (hover: hover) and (pointer: fine) {
-  .audience-tab:hover,
+  .audience-tab:not([aria-selected='true']):hover,
   .service-button:hover {
     color: var(--color-gold-text);
   }
@@ -1428,7 +1459,16 @@
   .contact-attorney:hover {
     border-color: var(--color-gold);
     background: var(--color-cream);
+    box-shadow: 0 0.75rem 1.75rem rgb(61 44 37 / 0.1);
     transform: translateY(-2px);
+  }
+
+  .contact-attorney:hover em {
+    background: var(--color-gold);
+  }
+
+  .contact-attorney:hover em::after {
+    transform: translateX(3px);
   }
 
   .site-footer__internal-links a:hover,
