@@ -1,5 +1,5 @@
 import { useEffect, useRef } from 'react'
-import { X } from 'lucide-react'
+import { MessageCircle, X } from 'lucide-react'
 
 import { attorneys } from '../data/site'
 import {
@@ -131,8 +131,12 @@ export function ContactChooser({
 
     document.addEventListener('keydown', handleKeyDown)
 
+    const previousBodyOverflow = document.body.style.overflow
+    document.body.style.overflow = 'hidden'
+
     return () => {
       document.removeEventListener('keydown', handleKeyDown)
+      document.body.style.overflow = previousBodyOverflow
 
       siblingStates.forEach(
         ({ element, hadAttribute, attributeValue }) => {
@@ -192,9 +196,20 @@ export function ContactChooser({
               target="_blank"
               rel="noreferrer"
             >
-              <strong>{attorney.name}</strong>
-              <span>{attorney.oab}</span>
-              <span>{formatPhone(attorney.phone)}</span>
+              <span className="attorney-choice__icon" aria-hidden="true">
+                <MessageCircle strokeWidth={1.75} />
+              </span>
+              <span className="attorney-choice__body">
+                <strong>{attorney.name}</strong>
+                <span>{attorney.oab}</span>
+                <span>{formatPhone(attorney.phone)}</span>
+              </span>
+              <span className="attorney-choice__cta">
+                Conversar no WhatsApp
+                <svg aria-hidden="true" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M5 15L15 5M15 5H7M15 5V13" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
+                </svg>
+              </span>
             </a>
           ))}
         </div>

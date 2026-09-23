@@ -13,7 +13,7 @@ describe('App', () => {
         name: /^direito aplicado à realidade de quem vive e empreende no vale do jaguaribe e em todo o brasil\.$/i,
       }),
     ).toBeInTheDocument()
-    expect(screen.getAllByRole('button', { name: /falar com o escritório/i })).toHaveLength(2)
+    expect(screen.getAllByRole('button', { name: /falar com o escritório/i })).toHaveLength(3)
     expect(screen.getByRole('link', { name: /falar com ana paula/i })).toHaveAttribute(
       'href',
       expect.stringContaining('wa.me/5588996575592'),

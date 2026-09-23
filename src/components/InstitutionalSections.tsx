@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { MapPin, MessageCircle } from 'lucide-react'
 
 import { attorneys, office, practiceAreas } from '../data/site'
 import { buildWhatsAppUrl } from '../lib/whatsapp'
@@ -104,14 +105,43 @@ export function Header({ onContact }: { onContact: ContactAction }) {
   )
 }
 
-export function Hero({ onContact }: { onContact: ContactAction }) {
-  const content = useReveal<HTMLDivElement>()
-  const visual = useReveal<HTMLDivElement>()
+const heroImageWidths = [480, 768, 1080, 1440, 1920, 2400]
 
+function buildHeroSrcSet(basePath: string) {
+  // basePath: /images/equipe-almeida-ribeiro.webp -> hero/equipe-almeida-ribeiro-{w}.webp
+  const segments = basePath.split('/')
+  const filename = segments.pop() ?? ''
+  const dir = segments.join('/')
+  const stem = filename.replace(/\.webp$/, '')
+
+  return heroImageWidths
+    .map((w) => `${dir}/hero/${stem}-${w}.webp ${w}w`)
+    .join(', ')
+}
+
+// Fixed WhatsApp-style shortcut for mobile, where "Falar com o escritório" is
+// otherwise buried in the header's dropdown menu once the visitor scrolls
+// past the hero.
+export function FloatingContact({ onContact }: { onContact: ContactAction }) {
+  return (
+    <button
+      className="floating-contact"
+      type="button"
+      onClick={onContact}
+      aria-label="Falar com o escritório pelo WhatsApp"
+    >
+      <MessageCircle aria-hidden="true" strokeWidth={1.75} />
+    </button>
+  )
+}
+
+export function Hero({ onContact }: { onContact: ContactAction }) {
+  // Above-the-fold content renders immediately (no scroll-triggered reveal),
+  // so the first paint isn't blocked on JS + IntersectionObserver + a 1.1s animation.
   return (
     <section className="hero" id="escritorio" aria-labelledby="hero-title">
       <div className="hero__inner">
-        <div className={`hero__content reveal ${content.revealClassName}`} ref={content.ref}>
+        <div className="hero__content">
           <p className="eyebrow">Limoeiro do Norte · CE · Atendimento em todo o Brasil</p>
           <h1 className="hero__title" id="hero-title">
             Direito aplicado à realidade de quem vive e empreende no Vale do Jaguaribe e em todo o Brasil.
@@ -129,14 +159,18 @@ export function Hero({ onContact }: { onContact: ContactAction }) {
           </div>
         </div>
 
-        <div className="hero__visual" ref={visual.ref}>
+        <div className="hero__visual">
           {office.heroImage ? (
             <img
-              className={`hero__image reveal--mask-x ${visual.revealClassName}`}
+              className="hero__image"
               src={office.heroImage}
-              alt="Ambiente do escritório Almeida Ribeiro"
+              srcSet={buildHeroSrcSet(office.heroImage)}
+              sizes="(min-width: 60rem) 50vw, 100vw"
+              alt="Ana Paula Almeida e Deyvison Ribeiro, advogados do escritório Almeida Ribeiro"
               width="3732"
               height="5724"
+              fetchPriority="high"
+              decoding="async"
             />
           ) : (
             <div className="hero__visual-placeholder" aria-hidden="true">
@@ -364,6 +398,11 @@ export function ContactSection() {
         </div>
       </div>
 
+      {/* A static preview instead of an embedded Google Maps iframe: the iframe
+          pulled in a heavy third-party bundle on every page load just to show
+          a small preview that only ever gets clicked through to Maps anyway,
+          and nesting an iframe inside an <a> is invalid HTML (iframe is
+          interactive content). */}
       <a
         className="map-embed"
         href={mapHref}
@@ -371,15 +410,10 @@ export function ContactSection() {
         rel="noreferrer"
         aria-label={`Abrir localização de ${office.name} no Google Maps`}
       >
-        <iframe
-          className="map-embed__frame"
-          src={`https://www.google.com/maps?q=${lat},${lng}&z=16&output=embed`}
-          title={`Mapa de localização — ${office.name}`}
-          loading="lazy"
-          referrerPolicy="no-referrer-when-downgrade"
-          tabIndex={-1}
-          aria-hidden="true"
-        />
+        <span className="map-embed__preview" aria-hidden="true">
+          <MapPin strokeWidth={1.5} />
+          <span className="map-embed__address">{office.address}</span>
+        </span>
 
         <span className="map-embed__link">
           Ver endereço no mapa

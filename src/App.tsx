@@ -9,6 +9,7 @@ import {
   AttorneyProfiles,
   ContactSection,
   Faq,
+  FloatingContact,
   Footer,
   Header,
   Hero,
@@ -52,6 +53,8 @@ function App() {
       </main>
 
       <Footer />
+
+      {!chooserOpen && <FloatingContact onContact={() => openContact()} />}
 
       <ContactChooser
         open={chooserOpen}

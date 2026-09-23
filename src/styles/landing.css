@@ -421,7 +421,7 @@
 
 @media (max-width: 59.99rem) {
   .hero {
-    margin-top: -4.5rem;
+    margin-top: calc(-4.5rem - 1px);
     padding: 0;
   }
 
@@ -958,17 +958,37 @@
   border: 1px solid var(--color-line);
   border-radius: var(--radius-md);
   overflow: hidden;
+  text-decoration: none;
   transition: box-shadow var(--motion-base);
 }
 
-.map-embed__frame {
-  display: block;
+.map-embed__preview {
+  display: flex;
   width: 100%;
   height: 100%;
   min-height: 20rem;
-  border: 0;
-  filter: grayscale(55%) sepia(8%) contrast(0.96);
-  pointer-events: none;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  background:
+    radial-gradient(circle at 50% 42%, color-mix(in srgb, var(--color-gold) 14%, transparent), transparent 60%),
+    var(--color-sand);
+  color: var(--color-ink-muted);
+  text-align: center;
+}
+
+.map-embed__preview svg {
+  width: 2.5rem;
+  height: 2.5rem;
+  color: var(--color-gold);
+}
+
+.map-embed__address {
+  max-width: 26rem;
+  padding-inline: var(--space-3);
+  font-size: 0.9rem;
+  line-height: 1.5;
 }
 
 .map-embed::after {
@@ -1308,7 +1328,7 @@
 }
 
 .contact-chooser__title {
-  max-width: 12ch;
+  max-width: 22ch;
   margin: 0 var(--space-5) var(--space-4) 0;
   color: var(--color-ink);
   font-family: var(--font-display);
@@ -1326,15 +1346,39 @@
 
 .attorney-choice {
   display: grid;
-  gap: 0.125rem;
+  grid-template-columns: auto 1fr;
+  align-items: center;
+  column-gap: var(--space-2);
   padding: var(--space-2);
   border: 1px solid var(--color-line);
-  border-radius: var(--radius-sm);
+  border-radius: var(--radius-md);
   color: var(--color-ink-muted);
   text-decoration: none;
   transition:
     border-color var(--motion-fast),
-    background-color var(--motion-fast);
+    background-color var(--motion-fast),
+    transform var(--motion-fast);
+}
+
+.attorney-choice__icon {
+  display: grid;
+  grid-row: 1 / 3;
+  width: 2.75rem;
+  height: 2.75rem;
+  border-radius: 999px;
+  background: var(--color-cream);
+  color: var(--color-gold);
+  place-items: center;
+}
+
+.attorney-choice__icon svg {
+  width: 1.35rem;
+  height: 1.35rem;
+}
+
+.attorney-choice__body {
+  display: grid;
+  gap: 0.125rem;
 }
 
 .attorney-choice strong {
@@ -1342,6 +1386,23 @@
   font-family: var(--font-display);
   font-size: 1.25rem;
   line-height: 1.25;
+}
+
+.attorney-choice__cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  grid-column: 2;
+  margin-top: var(--space-1);
+  color: var(--color-gold-text);
+  font-size: 0.86rem;
+  font-weight: 700;
+}
+
+.attorney-choice__cta svg {
+  width: 0.9rem;
+  height: 0.9rem;
+  transition: transform var(--motion-fast);
 }
 
 .attorney-choice:focus-visible {
@@ -1352,6 +1413,11 @@
   .attorney-choice:hover {
     border-color: var(--color-gold);
     background: var(--color-cream);
+    transform: translateY(-2px);
+  }
+
+  .attorney-choice:hover .attorney-choice__cta svg {
+    transform: translateX(3px);
   }
 }
 
@@ -1365,11 +1431,15 @@
   }
 
   .dialog-backdrop {
-    padding: var(--space-1);
+    padding: 0;
+    align-items: end;
   }
 
   .contact-chooser {
+    width: 100%;
+    max-block-size: calc(100dvh - 3rem);
     padding: var(--space-3);
+    border-radius: 1.5rem 1.5rem 0 0;
   }
 
   .audience-tabs {
@@ -1475,5 +1545,52 @@
   .site-footer__links a:hover,
   .site-footer__credit a:hover {
     color: var(--color-sand);
+  }
+}
+
+/* Focus ring on dark (ink-background) sections: the default gold outline is
+   ~2.1:1 against --color-ink, below the 3:1 minimum for non-text UI. Swap to
+   the brighter gold used for accents in these sections. */
+.site-header :focus-visible,
+.hero :focus-visible,
+.marquee :focus-visible,
+.how-it-works :focus-visible,
+.site-footer :focus-visible {
+  outline-color: var(--color-gold-bright);
+}
+
+.floating-contact {
+  position: fixed;
+  z-index: 30;
+  right: var(--space-3);
+  bottom: var(--space-3);
+  display: grid;
+  width: 3.5rem;
+  height: 3.5rem;
+  border: 0;
+  border-radius: 999px;
+  background: var(--color-gold-bright);
+  color: var(--color-ink);
+  cursor: pointer;
+  box-shadow: 0 0.75rem 1.75rem color-mix(in srgb, var(--color-ink) 38%, transparent);
+  place-items: center;
+  transition: transform var(--motion-fast), box-shadow var(--motion-fast);
+}
+
+.floating-contact svg {
+  width: 1.65rem;
+  height: 1.65rem;
+}
+
+@media (min-width: 60rem) {
+  .floating-contact {
+    display: none;
+  }
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .floating-contact:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 1rem 2.25rem color-mix(in srgb, var(--color-ink) 45%, transparent);
   }
 }

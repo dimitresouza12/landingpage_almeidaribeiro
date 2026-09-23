@@ -75,9 +75,16 @@ function AreaCard({
         className="area-card__trigger"
         type="button"
         aria-pressed={selected}
+        aria-expanded={selected}
+        aria-controls={`area-panel-${area.id}`}
         onClick={onToggle}
       >
-        <h3 className="area-card__name">{area.name}</h3>
+        {/* <button> only permits phrasing content — an <h3> descendant is
+            invalid HTML, so the heading semantics are applied to this span
+            via role="heading" instead. */}
+        <span className="area-card__name" role="heading" aria-level={3}>
+          {area.name}
+        </span>
         <span aria-hidden="true" className="area-card__mark">
           &#8595;
         </span>
@@ -88,9 +95,7 @@ function AreaCard({
       {selected && (
         <div
           className="service-panel"
-          id="practice-services"
-          role="tabpanel"
-          aria-labelledby={`area-${area.id}`}
+          id={`area-panel-${area.id}`}
           aria-live="polite"
         >
           {area.services.length > 0 ? (
@@ -209,7 +214,7 @@ export function PracticeExplorer({ onContact }: PracticeExplorerProps) {
               type="button"
               role="tab"
               aria-selected={selected}
-              aria-controls="practice-services"
+              aria-controls="area-grid"
               tabIndex={selected ? 0 : -1}
               ref={(element) => {
                 tabRefs.current[id] = element
@@ -224,7 +229,7 @@ export function PracticeExplorer({ onContact }: PracticeExplorerProps) {
       </div>
 
       <div className="practice-explorer__content">
-        <div className="area-grid" aria-label="Áreas disponíveis">
+        <div className="area-grid" id="area-grid" aria-label="Áreas disponíveis">
           {areas.map((area) => {
             const globalIndex = practiceAreas.findIndex((item) => item.id === area.id)
 
