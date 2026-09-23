@@ -175,6 +175,19 @@
   box-shadow: 0 0.6rem 1.5rem color-mix(in srgb, var(--color-gold-bright) 35%, transparent);
 }
 
+/* Scoped to the header bar's own button (not .site-header .button-primary,
+   which also matches .site-menu__contact inside the light dropdown panel,
+   where this paper-toned hover would nearly disappear). Same reasoning as
+   the hero fix above: without this, hover falls through to the generic
+   ink-muted fill while the dark ink text stays, which is hard to read. */
+@media (hover: hover) and (pointer: fine) {
+  .site-header__contact:not(:disabled):hover {
+    border-color: var(--color-paper);
+    background: var(--color-paper);
+    box-shadow: 0 0.85rem 2rem color-mix(in srgb, var(--color-paper) 40%, transparent);
+  }
+}
+
 .site-header__inner {
   display: grid;
   grid-template-columns: minmax(0, 1fr) auto;
@@ -329,7 +342,12 @@
   color: var(--color-paper);
 }
 
-@media (min-width: 60rem) {
+/* Not scoped to a min-width: the hero has a dark background at every
+   viewport, so the light-on-dark hover treatment always applies. Without
+   this override, hovering fell through to the generic .button-primary hover
+   (a muted brown fill) while the hero's dark ink text color stayed — nearly
+   illegible. */
+@media (hover: hover) and (pointer: fine) {
   .hero .button-primary:not(:disabled):hover {
     border-color: var(--color-paper);
     background: var(--color-paper);
