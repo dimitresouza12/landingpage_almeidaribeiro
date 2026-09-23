@@ -29,4 +29,5 @@
 
   --motion-fast: 160ms ease-out;
   --motion-base: 240ms ease-out;
+  --ease-reveal: cubic-bezier(0.16, 1, 0.3, 1);
 }

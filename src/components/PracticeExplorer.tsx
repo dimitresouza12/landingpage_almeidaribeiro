@@ -1,9 +1,23 @@
-import { useMemo, useRef, useState, type KeyboardEvent } from 'react'
+import { useMemo, useRef, useState, type ComponentType, type KeyboardEvent } from 'react'
+import {
+  Briefcase,
+  HardHat,
+  HeartPulse,
+  Lock,
+  MessageCircle,
+  Scale,
+  ShieldCheck,
+  ShoppingBag,
+  Sprout,
+  type LucideProps,
+} from 'lucide-react'
 
 import {
   practiceAreas,
   type Audience,
+  type PracticeArea,
 } from '../data/site'
+import { useReveal } from '../lib/useReveal'
 import type { ContactTopic } from './ContactChooser'
 
 type PracticeExplorerProps = {
@@ -15,6 +29,106 @@ const audiences: Array<{ id: Audience; label: string }> = [
   { id: 'business', label: 'Para sua empresa' },
 ]
 
+const areaIcons: Record<string, ComponentType<LucideProps>> = {
+  previdenciario: ShieldCheck,
+  'civil-pessoa': Scale,
+  'consumidor-pessoa': ShoppingBag,
+  'digital-pessoa': Lock,
+  saude: HeartPulse,
+  empresarial: Briefcase,
+  agrario: Sprout,
+  trabalho: HardHat,
+  'civil-empresa': Scale,
+  'digital-empresa': Lock,
+  consultoria: MessageCircle,
+  'consumidor-empresa': ShoppingBag,
+}
+
+function AreaCard({
+  area,
+  index,
+  selected,
+  onToggle,
+  onContact,
+}: {
+  area: PracticeArea
+  index: number
+  selected: boolean
+  onToggle: () => void
+  onContact: (topic?: ContactTopic) => void
+}) {
+  const { ref, revealClassName } = useReveal<HTMLDivElement>()
+  const Icon = areaIcons[area.id] ?? Scale
+
+  return (
+    <div
+      className={`area-card reveal ${revealClassName}`}
+      style={{ ['--reveal-delay' as string]: `${Math.min(index, 6) * 60}ms` }}
+      ref={ref}
+    >
+      <div className="area-card__icon" aria-hidden="true">
+        <Icon size={22} strokeWidth={1.75} />
+      </div>
+
+      <button
+        id={`area-${area.id}`}
+        className="area-card__trigger"
+        type="button"
+        aria-pressed={selected}
+        onClick={onToggle}
+      >
+        <h3 className="area-card__name">{area.name}</h3>
+        <span aria-hidden="true" className="area-card__mark">
+          &#8595;
+        </span>
+      </button>
+
+      <p className="area-card__summary">{area.summary}</p>
+
+      {selected && (
+        <div
+          className="service-panel"
+          id="practice-services"
+          role="tabpanel"
+          aria-labelledby={`area-${area.id}`}
+          aria-live="polite"
+        >
+          {area.services.length > 0 ? (
+            <div className="service-list">
+              {area.services.map((service) => (
+                <button
+                  key={service.id}
+                  className="service-button"
+                  type="button"
+                  onClick={() =>
+                    onContact({
+                      area: area.name,
+                      service: service.name,
+                    })
+                  }
+                >
+                  <strong>{service.name}</strong>
+                  <span>{service.description}</span>
+                </button>
+              ))}
+            </div>
+          ) : (
+            <div className="service-panel__empty">
+              <button
+                className="button-primary"
+                type="button"
+                onClick={() => onContact({ area: area.name })}
+              >
+                Entrar em contato
+              </button>
+            </div>
+          )}
+        </div>
+      )}
+    </div>
+  )
+}
+
 export function PracticeExplorer({ onContact }: PracticeExplorerProps) {
   const [audience, setAudience] = useState<Audience>('individual')
   const [activeAreaId, setActiveAreaId] = useState<string | null>('previdenciario')
@@ -22,6 +136,7 @@ export function PracticeExplorer({ onContact }: PracticeExplorerProps) {
     individual: null,
     business: null,
   })
+  const heading = useReveal<HTMLDivElement>()
   const areas = useMemo(
     () => practiceAreas.filter((area) => area.audience === audience),
     [audience],
@@ -72,13 +187,15 @@ export function PracticeExplorer({ onContact }: PracticeExplorerProps) {
       id="areas"
       aria-labelledby="practice-title"
     >
-      <p className="eyebrow">Áreas de atuação</p>
-      <h2
-        className="section-title practice-explorer__title"
-        id="practice-title"
-      >
-        Encontre a orientação que você procura.
-      </h2>
+      <div className={`practice-explorer__heading reveal ${heading.revealClassName}`} ref={heading.ref}>
+        <p className="eyebrow">Áreas de atuação</p>
+        <h2
+          className="section-title practice-explorer__title"
+          id="practice-title"
+        >
+          Encontre a orientação que você procura.
+        </h2>
+      </div>
 
       <div className="audience-tabs" role="tablist" aria-label="Público">
         {audiences.map(({ id, label }) => {
@@ -107,69 +224,21 @@ export function PracticeExplorer({ onContact }: PracticeExplorerProps) {
       </div>
 
       <div className="practice-explorer__content">
-        <div className="area-list" aria-label="Áreas disponíveis">
+        <div className="area-grid" aria-label="Áreas disponíveis">
           {areas.map((area) => {
-            const selected = area.id === activeAreaId
+            const globalIndex = practiceAreas.findIndex((item) => item.id === area.id)
 
             return (
-              <div className="area-item" key={area.id}>
-                <button
-                  id={`area-${area.id}`}
-                  className="area-button"
-                  type="button"
-                  aria-pressed={selected}
-                  onClick={() =>
-                    setActiveAreaId((current) => (current === area.id ? null : area.id))
-                  }
-                >
-                  <span>{area.name}</span>
-                  <span aria-hidden="true" className="area-button__mark">
-                    {selected ? '−' : '+'}
-                  </span>
-                </button>
-
-                {selected && (
-                  <div
-                    className="service-panel"
-                    id="practice-services"
-                    role="tabpanel"
-                    aria-labelledby={`area-${area.id}`}
-                    aria-live="polite"
-                  >
-                    {area.services.length > 0 ? (
-                      <div className="service-list">
-                        {area.services.map((service) => (
-                          <button
-                            key={service.id}
-                            className="service-button"
-                            type="button"
-                            onClick={() =>
-                              onContact({
-                                area: area.name,
-                                service: service.name,
-                              })
-                            }
-                          >
-                            <strong>{service.name}</strong>
-                            <span>{service.description}</span>
-                          </button>
-                        ))}
-                      </div>
-                    ) : (
-                      <div className="service-panel__empty">
-                        <p>Entre em contato para falar sobre esta área.</p>
-                        <button
-                          className="button-primary"
-                          type="button"
-                          onClick={() => onContact({ area: area.name })}
-                        >
-                          Entrar em contato
-                        </button>
-                      </div>
-                    )}
-                  </div>
-                )}
-              </div>
+              <AreaCard
+                key={area.id}
+                area={area}
+                index={globalIndex}
+                selected={area.id === activeAreaId}
+                onToggle={() =>
+                  setActiveAreaId((current) => (current === area.id ? null : area.id))
+                }
+                onContact={onContact}
+              />
             )
           })}
         </div>

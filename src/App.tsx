@@ -5,6 +5,7 @@ import {
   type ContactTopic,
 } from './components/ContactChooser'
 import {
+  AreasMarquee,
   AttorneyProfiles,
   ContactSection,
   Faq,
@@ -13,12 +14,15 @@ import {
   Hero,
   HowItWorks,
 } from './components/InstitutionalSections'
+import { useLenis } from './lib/useLenis'
 import { PracticeExplorer } from './components/PracticeExplorer'
 
 function App() {
   const [topic, setTopic] = useState<ContactTopic>()
   const [chooserOpen, setChooserOpen] = useState(false)
   const mainContentRef = useRef<HTMLElement>(null)
+
+  useLenis()
 
   function openContact(nextTopic?: ContactTopic) {
     setTopic(nextTopic)
@@ -39,8 +43,9 @@ function App() {
 
       <main id="main-content" ref={mainContentRef} tabIndex={-1}>
         <Hero onContact={() => openContact()} />
+        <AreasMarquee />
         <PracticeExplorer onContact={openContact} />
-        <AttorneyProfiles onContact={() => openContact()} />
+        <AttorneyProfiles />
         <HowItWorks />
         <Faq />
         <ContactSection />

@@ -50,7 +50,7 @@ describe('Approved photographs', () => {
     render(
       <>
         <Hero onContact={() => undefined} />
-        <AttorneyProfiles onContact={() => undefined} />
+        <AttorneyProfiles />
       </>,
     )
 

@@ -19,6 +19,7 @@ export type PracticeArea = {
   id: string
   name: string
   audience: Audience
+  summary: string
   services: Service[]
 }
 
@@ -29,6 +30,10 @@ export type Office = {
   email: string
   instagram: string
   heroImage?: string
+  coordinates: {
+    lat: number
+    lng: number
+  }
 }
 
 export const attorneys: Attorney[] = [
@@ -55,12 +60,14 @@ export const practiceAreas: PracticeArea[] = [
     id: 'previdenciario',
     name: 'Direito Previdenciário',
     audience: 'individual',
+    summary: 'Questões relacionadas a benefícios do INSS, como aposentadoria, auxílios e pensões.',
     services: [],
   },
   {
     id: 'civil-pessoa',
     name: 'Direito Civil',
     audience: 'individual',
+    summary: 'Relações entre pessoas físicas, incluindo família, contratos e patrimônio.',
     services: [
       {
         id: 'divorcio',
@@ -83,60 +90,70 @@ export const practiceAreas: PracticeArea[] = [
     id: 'consumidor-pessoa',
     name: 'Direito do Consumidor',
     audience: 'individual',
+    summary: 'Relações de consumo entre pessoas físicas e empresas.',
     services: [],
   },
   {
     id: 'digital-pessoa',
     name: 'Direito Digital',
     audience: 'individual',
+    summary: 'Questões relacionadas a dados pessoais e conflitos no ambiente digital.',
     services: [],
   },
   {
     id: 'saude',
     name: 'Direito da Saúde',
     audience: 'individual',
+    summary: 'Questões relacionadas a planos de saúde e direitos do paciente.',
     services: [],
   },
   {
     id: 'empresarial',
     name: 'Direito Empresarial',
     audience: 'business',
+    summary: 'Constituição, contratos e questões societárias.',
     services: [],
   },
   {
     id: 'agrario',
     name: 'Direito Agrário',
     audience: 'business',
+    summary: 'Questões relacionadas à propriedade rural e ao agronegócio.',
     services: [],
   },
   {
     id: 'trabalho',
     name: 'Direito do Trabalho',
     audience: 'business',
+    summary: 'Relações entre empregadores e empregados.',
     services: [],
   },
   {
     id: 'civil-empresa',
     name: 'Direito Civil',
     audience: 'business',
+    summary: 'Contratos e questões patrimoniais envolvendo a empresa.',
     services: [],
   },
   {
     id: 'digital-empresa',
     name: 'Direito Digital',
     audience: 'business',
+    summary: 'Proteção de dados e conformidade digital.',
     services: [],
   },
   {
     id: 'consultoria',
     name: 'Consultoria Jurídica',
     audience: 'business',
+    summary: 'Orientação preventiva para decisões e operações do negócio.',
     services: [],
   },
   {
     id: 'consumidor-empresa',
     name: 'Direito do Consumidor',
     audience: 'business',
+    summary: 'Relações entre a empresa e seus consumidores.',
     services: [],
   },
 ]
@@ -149,4 +166,8 @@ export const office: Office = {
   email: 'almeidaribeiro.socadv@gmail.com',
   instagram: 'https://instagram.com/almeidaribeiro_adv',
   heroImage: '/images/equipe-almeida-ribeiro.webp',
+  coordinates: {
+    lat: -5.1504359,
+    lng: -38.1007568,
+  },
 }

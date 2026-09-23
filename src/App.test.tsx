@@ -13,7 +13,7 @@ describe('App', () => {
         name: /^direito aplicado à realidade de quem vive e empreende no vale do jaguaribe e em todo o brasil\.$/i,
       }),
     ).toBeInTheDocument()
-    expect(screen.getAllByRole('button', { name: /falar com o escritório/i })).toHaveLength(4)
+    expect(screen.getAllByRole('button', { name: /falar com o escritório/i })).toHaveLength(2)
     expect(screen.getByRole('link', { name: /falar com ana paula/i })).toHaveAttribute(
       'href',
       expect.stringContaining('wa.me/5588996575592'),
@@ -22,16 +22,16 @@ describe('App', () => {
       'href',
       expect.stringContaining('wa.me/5585996274319'),
     )
-    expect(screen.getByRole('link', { name: /ver endereço no mapa/i })).toHaveAttribute(
+    expect(screen.getByRole('link', { name: /abrir localização.*no google maps/i })).toHaveAttribute(
       'href',
-      expect.stringContaining('google.com/maps/search/?api=1&query='),
+      expect.stringContaining('google.com/maps?q='),
     )
   })
 
-  it('opens the shared attorney chooser from an attorney profile', () => {
+  it('opens the shared attorney chooser from the header', () => {
     render(<App />)
 
-    fireEvent.click(screen.getAllByRole('button', { name: /falar com o escritório/i })[2])
+    fireEvent.click(screen.getAllByRole('button', { name: /falar com o escritório/i })[0])
 
     expect(screen.getByRole('dialog', { name: /escolha com quem falar/i })).toBeInTheDocument()
   })
