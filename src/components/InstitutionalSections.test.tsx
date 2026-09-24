@@ -61,11 +61,15 @@ describe('Approved photographs', () => {
     ).toHaveAttribute('src', '/images/equipe-almeida-ribeiro.webp')
     expect(screen.getByAltText('Foto de Ana Paula Almeida')).toHaveAttribute(
       'src',
-      '/images/ana-paula-almeida.webp',
+      '/images/ana-paula-almeida-aprimorada.png',
     )
     expect(screen.getByAltText('Foto de Deyvison Ribeiro')).toHaveAttribute(
       'src',
-      '/images/deyvison-ribeiro.webp',
+      '/images/deyvison-ribeiro-aprimorada.png',
+    )
+    expect(screen.getByAltText('Ana Paula Almeida e Deyvison Ribeiro')).toHaveAttribute(
+      'src',
+      '/images/equipe-almeida-ribeiro-aprimorada.png',
     )
   })
 })

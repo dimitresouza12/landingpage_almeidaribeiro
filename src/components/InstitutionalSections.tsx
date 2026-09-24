@@ -162,9 +162,8 @@ export function Hero({ onContact }: { onContact: ContactAction }) {
     <section className="hero" id="escritorio" aria-labelledby="hero-title">
       <div className="hero__inner">
         <div className="hero__content">
-          <p className="eyebrow">Limoeiro do Norte · CE · Atendimento em todo o Brasil</p>
           <h1 className="hero__title" id="hero-title">
-            Direito aplicado à realidade de quem vive e empreende.
+            Direito aplicado à realidade de pessoas e empresa.
           </h1>
           <p className="hero__intro">
             Orientação jurídica para pessoas e empresas, com escuta atenta e comunicação clara em cada etapa.
@@ -254,6 +253,31 @@ function AttorneyRow({
   )
 }
 
+function TeamProfile() {
+  const { ref, revealClassName } = useReveal<HTMLElement>()
+
+  return (
+    <article className={`attorney-profile reveal ${revealClassName}`} ref={ref}>
+      <div className="attorney-profile__media">
+        <img
+          className="attorney-profile__image"
+          src="/images/equipe-almeida-ribeiro-aprimorada.png"
+          alt="Ana Paula Almeida e Deyvison Ribeiro"
+          width="576"
+          height="720"
+          loading="lazy"
+        />
+      </div>
+      <div className="attorney-profile__copy">
+        <h3>Almeida Ribeiro Advogados</h3>
+        <p>
+          Duas trajetórias, diferentes experiências e um propósito em comum: oferecer orientação jurídica com conhecimento, estratégia e proximidade, transformando experiência em soluções.
+        </p>
+      </div>
+    </article>
+  )
+}
+
 export function AttorneyProfiles() {
   const heading = useReveal<HTMLDivElement>()
 
@@ -272,6 +296,7 @@ export function AttorneyProfiles() {
             reversed={index % 2 === 1}
           />
         ))}
+        <TeamProfile />
       </div>
     </section>
   )
