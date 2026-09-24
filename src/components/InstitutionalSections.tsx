@@ -239,6 +239,7 @@ function AttorneyRow({
     <article
       className={`attorney-profile reveal ${revealClassName}`}
       data-align={reversed ? 'reverse' : undefined}
+      data-attorney={attorney.id}
       ref={ref}
     >
       <div className="attorney-profile__media">
@@ -257,7 +258,7 @@ function TeamProfile() {
   const { ref, revealClassName } = useReveal<HTMLElement>()
 
   return (
-    <article className={`attorney-profile reveal ${revealClassName}`} ref={ref}>
+    <article className={`attorney-profile reveal ${revealClassName}`} data-profile="team" ref={ref}>
       <div className="attorney-profile__media">
         <img
           className="attorney-profile__image"

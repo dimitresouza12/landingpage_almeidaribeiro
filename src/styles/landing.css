@@ -444,6 +444,13 @@
   height: auto;
 }
 
+@media (max-width: 59.99rem) {
+  .attorney-profile[data-attorney='ana-paula'] .attorney-profile__image,
+  .attorney-profile[data-profile='team'] .attorney-profile__image {
+    object-position: center top;
+  }
+}
+
 .hero__visual-placeholder {
   position: absolute;
   inset: 0;
