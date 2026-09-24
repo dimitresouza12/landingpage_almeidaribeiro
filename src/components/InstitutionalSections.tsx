@@ -112,6 +112,8 @@ const heroImageWidths = [480, 768, 1080, 1440, 1920, 2400]
 
 function buildHeroSrcSet(basePath: string) {
   // basePath: /images/equipe-almeida-ribeiro.webp -> hero/equipe-almeida-ribeiro-{w}.webp
+  if (!basePath.endsWith('.webp')) return undefined
+
   const segments = basePath.split('/')
   const filename = segments.pop() ?? ''
   const dir = segments.join('/')
