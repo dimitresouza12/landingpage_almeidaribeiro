@@ -58,7 +58,7 @@ describe('Approved photographs', () => {
       screen.getByAltText(
         'Ana Paula Almeida e Deyvison Ribeiro, advogados do escritório Almeida Ribeiro',
       ),
-    ).toHaveAttribute('src', '/images/equipe-almeida-ribeiro-aprimorada.png')
+    ).toHaveAttribute('src', '/images/hero-casal-aprimorada.png')
     expect(screen.getByAltText('Foto de Ana Paula Almeida')).toHaveAttribute(
       'src',
       '/images/ana-paula-almeida-aprimorada.png',

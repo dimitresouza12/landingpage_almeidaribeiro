@@ -168,7 +168,7 @@ export const office: Office = {
   hours: '8h às 11h e 14h às 17h',
   email: 'almeidaribeiro.socadv@gmail.com',
   instagram: 'https://instagram.com/almeidaribeiro_adv',
-  heroImage: '/images/equipe-almeida-ribeiro-aprimorada.png',
+  heroImage: '/images/hero-casal-aprimorada.png',
   coordinates: {
     lat: -5.1504359,
     lng: -38.1007568,
