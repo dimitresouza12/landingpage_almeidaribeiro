@@ -165,7 +165,7 @@ export function Hero({ onContact }: { onContact: ContactAction }) {
       <div className="hero__inner">
         <div className="hero__content">
           <h1 className="hero__title" id="hero-title">
-            Direito aplicado à realidade de pessoas e empresa.
+            Direito aplicado à realidade de pessoas e empresas.
           </h1>
           <p className="hero__intro">
             Orientação jurídica para pessoas e empresas, com escuta atenta e comunicação clara em cada etapa.
