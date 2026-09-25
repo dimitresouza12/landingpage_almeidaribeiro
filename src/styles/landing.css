@@ -591,10 +591,20 @@
   }
 }
 
+/* The marquee is decorative (aria-hidden) and slow, so it keeps moving for
+   visitors with "reduce motion" on — many phones have it enabled and would
+   otherwise never see it move. It runs at half speed there, and pauses while
+   pressed/hovered. */
 @media (prefers-reduced-motion: reduce) {
   .marquee__track {
-    animation: none;
+    animation-duration: 68s !important;
+    animation-iteration-count: infinite !important;
   }
+}
+
+.marquee:hover .marquee__track,
+.marquee:active .marquee__track {
+  animation-play-state: paused;
 }
 
 .section-heading {

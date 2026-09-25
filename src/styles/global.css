@@ -110,7 +110,7 @@ img {
     scroll-behavior: auto;
   }
 
-  *,
+  *:not(.marquee__track),
   *::before,
   *::after {
     scroll-behavior: auto !important;

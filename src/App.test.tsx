@@ -10,7 +10,7 @@ describe('App', () => {
     expect(
       screen.getByRole('heading', {
         level: 1,
-        name: /^direito aplicado à realidade de quem vive e empreende\.$/i,
+        name: /^direito aplicado à realidade de pessoas e empresas\.$/i,
       }),
     ).toBeInTheDocument()
     expect(screen.getAllByRole('button', { name: /falar com o escritório/i })).toHaveLength(3)
