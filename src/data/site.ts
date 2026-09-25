@@ -1,3 +1,5 @@
+import type { PhotoId } from '../lib/photos'
+
 export type Audience = 'individual' | 'business'
 
 export type Attorney = {
@@ -6,7 +8,7 @@ export type Attorney = {
   oab: string
   phone: string
   bio: string
-  image?: string
+  photo?: PhotoId
   avatar?: string
 }
 
@@ -30,7 +32,7 @@ export type Office = {
   hours: string
   email: string
   instagram: string
-  heroImage?: string
+  heroPhoto?: PhotoId
   coordinates: {
     lat: number
     lng: number
@@ -44,7 +46,7 @@ export const attorneys: Attorney[] = [
     oab: 'OAB/CE 57.336',
     phone: '5588996575592',
     bio: 'Advogada e consultora, com experiência em gestão e atuação jurídica. Une conhecimento técnico, visão estratégica e experiência empresarial para compreender desafios e construir soluções jurídicas alinhadas às necessidades de pessoas e empresas.',
-    image: '/images/ana-paula-almeida-aprimorada.png',
+    photo: 'ana-paula-almeida',
     avatar: '/images/avatar-ana-paula-almeida.webp',
   },
   {
@@ -53,7 +55,7 @@ export const attorneys: Attorney[] = [
     oab: 'OAB/CE 20.651',
     phone: '5585996274319',
     bio: 'Advogado, com experiência na área jurídica e em consultoria jurídica ao agronegócio. Atua com conhecimento técnico, visão estratégica e compromisso com uma advocacia responsável, próxima e voltada à realidade de cada cliente.',
-    image: '/images/deyvison-ribeiro-aprimorada.png',
+    photo: 'deyvison-ribeiro',
     avatar: '/images/avatar-deyvison-ribeiro.webp',
   },
 ]
@@ -168,7 +170,7 @@ export const office: Office = {
   hours: '8h às 11h e 14h às 17h',
   email: 'almeidaribeiro.socadv@gmail.com',
   instagram: 'https://instagram.com/almeidaribeiro_adv',
-  heroImage: '/images/hero-casal-aprimorada.png',
+  heroPhoto: 'hero-casal',
   coordinates: {
     lat: -5.1504359,
     lng: -38.1007568,

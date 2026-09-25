@@ -46,7 +46,7 @@ describe('Faq', () => {
 })
 
 describe('Approved photographs', () => {
-  it('renders the approved office and attorney photographs from their configured paths', () => {
+  it('renders the approved office and attorney photographs as responsive WebP variants', () => {
     render(
       <>
         <Hero onContact={() => undefined} />
@@ -54,22 +54,23 @@ describe('Approved photographs', () => {
       </>,
     )
 
-    expect(
-      screen.getByAltText(
+    const photos: Array<[string, string]> = [
+      [
         'Ana Paula Almeida e Deyvison Ribeiro, advogados do escritório Almeida Ribeiro',
-      ),
-    ).toHaveAttribute('src', '/images/hero-casal-aprimorada.png')
-    expect(screen.getByAltText('Foto de Ana Paula Almeida')).toHaveAttribute(
-      'src',
-      '/images/ana-paula-almeida-aprimorada.png',
-    )
-    expect(screen.getByAltText('Foto de Deyvison Ribeiro')).toHaveAttribute(
-      'src',
-      '/images/deyvison-ribeiro-aprimorada.png',
-    )
-    expect(screen.getByAltText('Ana Paula Almeida e Deyvison Ribeiro')).toHaveAttribute(
-      'src',
-      '/images/equipe-almeida-ribeiro-aprimorada.png',
-    )
+        'hero-casal',
+      ],
+      ['Foto de Ana Paula Almeida', 'ana-paula-almeida'],
+      ['Foto de Deyvison Ribeiro', 'deyvison-ribeiro'],
+      ['Ana Paula Almeida e Deyvison Ribeiro', 'equipe-almeida-ribeiro'],
+    ]
+
+    for (const [alt, id] of photos) {
+      const img = screen.getByAltText(alt)
+
+      expect(img.getAttribute('src')).toMatch(
+        new RegExp(`^/images/photos/${id}-\\d+\\.webp$`),
+      )
+      expect(img.getAttribute('srcset')).toContain(`/images/photos/${id}-480.webp 480w`)
+    }
   })
 })

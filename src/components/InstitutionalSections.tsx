@@ -1,6 +1,7 @@
 import { useState } from 'react'
 
 import { attorneys, office, practiceAreas } from '../data/site'
+import { photoProps } from '../lib/photos'
 import { buildWhatsAppUrl } from '../lib/whatsapp'
 import { useReveal } from '../lib/useReveal'
 import { useScrolled } from '../lib/useScrolled'
@@ -24,16 +25,19 @@ function AttorneyPhotoPlaceholder() {
   )
 }
 
+// Rendered width: full column on mobile, ~568px in the desktop profile card.
+const profilePhotoSizes = '(min-width: 60rem) 568px, calc(100vw - 3rem)'
+
 function AttorneyPhoto({ attorney }: { attorney: (typeof attorneys)[number] }) {
-  if (attorney.image) {
+  if (attorney.photo) {
     return (
       <img
         className="attorney-profile__image"
-        src={attorney.image}
+        {...photoProps(attorney.photo)}
+        sizes={profilePhotoSizes}
         alt={`Foto de ${attorney.name}`}
-        width="576"
-        height="720"
         loading="lazy"
+        decoding="async"
       />
     )
   }
@@ -55,10 +59,10 @@ export function Header({ onContact }: { onContact: ContactAction }) {
       <div className="site-header__inner">
         <a className="wordmark" href="#escritorio" aria-label="Almeida Ribeiro Advogados Associados, início">
           <img
-            src="/images/logo-almeida-ribeiro.webp"
+            src="/images/logo-almeida-ribeiro-480.webp"
             alt="Almeida Ribeiro Advogados Associados"
-            width="1200"
-            height="440"
+            width="480"
+            height="176"
           />
         </a>
 
@@ -106,22 +110,6 @@ export function Header({ onContact }: { onContact: ContactAction }) {
       </div>
     </header>
   )
-}
-
-const heroImageWidths = [480, 768, 1080, 1440, 1920, 2400]
-
-function buildHeroSrcSet(basePath: string) {
-  // basePath: /images/equipe-almeida-ribeiro.webp -> hero/equipe-almeida-ribeiro-{w}.webp
-  if (!basePath.endsWith('.webp')) return undefined
-
-  const segments = basePath.split('/')
-  const filename = segments.pop() ?? ''
-  const dir = segments.join('/')
-  const stem = filename.replace(/\.webp$/, '')
-
-  return heroImageWidths
-    .map((w) => `${dir}/hero/${stem}-${w}.webp ${w}w`)
-    .join(', ')
 }
 
 // Fixed WhatsApp-style shortcut for mobile, where "Falar com o escritório" is
@@ -181,15 +169,12 @@ export function Hero({ onContact }: { onContact: ContactAction }) {
         </div>
 
         <div className="hero__visual">
-          {office.heroImage ? (
+          {office.heroPhoto ? (
             <img
               className="hero__image"
-              src={office.heroImage}
-              srcSet={buildHeroSrcSet(office.heroImage)}
+              {...photoProps(office.heroPhoto)}
               sizes="(min-width: 60rem) 50vw, 100vw"
               alt="Ana Paula Almeida e Deyvison Ribeiro, advogados do escritório Almeida Ribeiro"
-              width="3732"
-              height="5724"
               fetchPriority="high"
               decoding="async"
             />
@@ -264,11 +249,11 @@ function TeamProfile() {
       <div className="attorney-profile__media">
         <img
           className="attorney-profile__image"
-          src="/images/equipe-almeida-ribeiro-aprimorada.png"
+          {...photoProps('equipe-almeida-ribeiro')}
+          sizes={profilePhotoSizes}
           alt="Ana Paula Almeida e Deyvison Ribeiro"
-          width="576"
-          height="720"
           loading="lazy"
+          decoding="async"
         />
       </div>
       <div className="attorney-profile__copy">
@@ -493,10 +478,10 @@ export function Footer() {
         <div>
           <img
             className="site-footer__logo"
-            src="/images/logo-almeida-ribeiro.webp"
+            src="/images/logo-almeida-ribeiro-480.webp"
             alt="Almeida Ribeiro Advogados Associados"
-            width="1200"
-            height="440"
+            width="480"
+            height="176"
             loading="lazy"
           />
           <p>Atuação em Limoeiro do Norte, Vale do Jaguaribe e atendimento online para todo o Brasil.</p>
